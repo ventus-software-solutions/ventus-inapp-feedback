@@ -1,0 +1,51 @@
+{
+  "name": "@ventus/feedback-mcp",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "MCP adapter for the Ventus In-App Feedback HTTP API.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ventus-software-solutions/ventus-inapp-feedback.git",
+    "directory": "apps/mcp-server"
+  },
+  "homepage": "https://github.com/ventus-software-solutions/ventus-inapp-feedback#readme",
+  "bugs": {
+    "url": "https://github.com/ventus-software-solutions/ventus-inapp-feedback/issues"
+  },
+  "bin": {
+    "ventus-feedback-mcp": "./dist/stdio.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p ./tsconfig.build.json",
+    "typecheck": "tsc -p ./tsconfig.json --noEmit",
+    "test": "npm run build && node --test ./test/*.test.mjs",
+    "prepublishOnly": "node ../../scripts/check-release-readiness.mjs"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.0.0",
+    "@ventus/feedback-api-client": "0.1.0",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "2.0.0"
+  }
+}

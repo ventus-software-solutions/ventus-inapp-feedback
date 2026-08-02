@@ -1,0 +1,52 @@
+{
+  "name": "@ventus/feedback-contracts",
+  "version": "0.1.0",
+  "description": "Domain model, state machine, API types, and OpenAPI contract for Ventus In-App Feedback.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ventus-software-solutions/ventus-inapp-feedback.git",
+    "directory": "packages/contracts"
+  },
+  "homepage": "https://github.com/ventus-software-solutions/ventus-inapp-feedback#readme",
+  "bugs": {
+    "url": "https://github.com/ventus-software-solutions/ventus-inapp-feedback/issues"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./openapi": "./openapi/openapi.yaml"
+  },
+  "files": [
+    "dist",
+    "openapi",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p ./tsconfig.build.json",
+    "test": "npm run build && node --test ./test/*.test.mjs",
+    "typecheck": "tsc --noEmit -p ./tsconfig.build.json && npm run build",
+    "prepublishOnly": "node ../../scripts/check-release-readiness.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "yaml": "^2.9.0"
+  },
+  "keywords": [
+    "feedback",
+    "openapi",
+    "api",
+    "state-machine"
+  ]
+}

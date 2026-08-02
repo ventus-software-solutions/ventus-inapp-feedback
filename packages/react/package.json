@@ -1,0 +1,58 @@
+{
+  "name": "@ventus/feedback-react",
+  "version": "0.1.0",
+  "description": "Thin React wrapper for the Ventus In-App Feedback Web Component.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ventus-software-solutions/ventus-inapp-feedback.git",
+    "directory": "packages/react"
+  },
+  "homepage": "https://github.com/ventus-software-solutions/ventus-inapp-feedback#readme",
+  "bugs": {
+    "url": "https://github.com/ventus-software-solutions/ventus-inapp-feedback/issues"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p ./tsconfig.build.json",
+    "test": "npm run build && node --test ./test/*.test.mjs",
+    "typecheck": "tsc --noEmit -p ./tsconfig.build.json && npm run build && tsc --noEmit --strict --skipLibCheck --jsx react-jsx --target ES2022 --module NodeNext --moduleResolution NodeNext ./test/types.test.tsx",
+    "prepublishOnly": "node ../../scripts/check-release-readiness.mjs"
+  },
+  "dependencies": {
+    "@ventus/feedback-browser": "0.1.0",
+    "@ventus/feedback-widget": "0.1.0"
+  },
+  "peerDependencies": {
+    "react": ">=18 <20"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.14",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "feedback",
+    "react",
+    "web-component"
+  ]
+}

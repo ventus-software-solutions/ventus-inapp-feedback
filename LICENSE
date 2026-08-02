@@ -1,0 +1,39 @@
+# Ventus In-App Feedback licensing
+
+This repository uses different licenses for integration components and the
+self-hosted backend.
+
+## MIT-licensed components
+
+The following components are licensed under the MIT License in
+`LICENSE-MIT.md`:
+
+- `packages/contracts`
+- `packages/api-client`
+- `packages/browser`
+- `packages/widget`
+- `packages/react`
+- `apps/mcp-server`
+- `apps/demo`
+- repository-level documentation, examples, scripts, and configuration, unless
+  a file states otherwise
+
+## Business Source licensed components
+
+`apps/api` is licensed under the Business Source License 1.1 in
+`LICENSE-BSL.md`, including its Additional Use Grant. Development,
+non-production use, and qualifying limited production use are free. Production
+use outside that grant requires a commercial license from Ventus Software
+Solutions GmbH.
+
+The BSL Additional Use Grant permits production use until the backend processes
+more than 1,000 aggregate feedback submissions per calendar month for three
+consecutive months. After the threshold is met, the grant provides 30 days to
+obtain a commercial license or reduce usage.
+
+This summary is informational. The license text applicable to each component
+controls. A `LICENSE` file inside a component directory takes precedence over
+this repository-level summary.
+
+The MIT-licensed components are open source. The BSL-licensed backend is
+source-available and is not open source before its Change Date.

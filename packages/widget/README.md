@@ -1,0 +1,36 @@
+# @ventus/feedback-widget
+
+Framework-neutral in-app feedback UI implemented as a standards-based custom
+element. The package is pre-1.0 and its API may change.
+
+```ts
+import { defineVentusFeedbackWidget } from "@ventus/feedback-widget";
+
+defineVentusFeedbackWidget();
+```
+
+```html
+<ventus-feedback
+  endpoint="/v1/feedback"
+  project-key="public-ingestion-key"
+  source-app="storefront"
+  release="2026.08.02"
+  environment="production"
+  theme="auto"
+></ventus-feedback>
+```
+
+The element exposes `open()` and `close()`, accepts a custom `transport`,
+`capture`, `captureOptions`, and `context` property, and emits composed events:
+`ventus-feedback-open`, `ventus-feedback-close`, `ventus-feedback-submit`,
+`ventus-feedback-success`, and `ventus-feedback-error`.
+
+Captured diagnostics are visible as opt-out groups in the form. Reporters can
+capture one masked screenshot or select a file; selecting a file replaces the
+automatic screenshot. Temporary form data, captures, object URLs, and attachment
+references are cleared after success or cancellation. Recoverable submission
+errors retain the current form.
+
+Use `capture-mode="display"` for browser display-media capture or
+`capture-mode="none"` to hide the capture behavior in host code. Viewport capture
+requires a consumer-provided `loadHtml2Canvas` function through `captureOptions`.

@@ -1,0 +1,12 @@
+DROP TRIGGER IF EXISTS feedback_events_no_update ON feedback_events;
+DROP FUNCTION IF EXISTS prevent_feedback_event_mutation();
+DROP TABLE IF EXISTS feedback_idempotency_keys;
+DROP TABLE IF EXISTS feedback_external_links;
+DROP TABLE IF EXISTS feedback_attachments;
+DROP TABLE IF EXISTS feedback_evidence;
+DROP TABLE IF EXISTS feedback_comments;
+DROP TABLE IF EXISTS feedback_events;
+DROP TABLE IF EXISTS feedback;
+DROP TABLE IF EXISTS projects;
+DROP TABLE IF EXISTS workspaces;
+DROP TABLE IF EXISTS schema_migrations;

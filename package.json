@@ -1,0 +1,48 @@
+{
+  "name": "ventus-inapp-feedback-workspace",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Workspace for the Ventus In-App Feedback SDK, widget, demo, and services.",
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ventus-software-solutions/ventus-inapp-feedback.git"
+  },
+  "homepage": "https://github.com/ventus-software-solutions/ventus-inapp-feedback#readme",
+  "bugs": {
+    "url": "https://github.com/ventus-software-solutions/ventus-inapp-feedback/issues"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace @ventus/feedback-contracts && npm run build --workspace @ventus/feedback-api-client && npm run build --workspace @ventus/feedback-browser && npm run build --workspace @ventus/feedback-widget && npm run build --workspace @ventus/feedback-react && npm run build --workspace @ventus/feedback-api && npm run build --workspace @ventus/feedback-mcp && npm run build --workspace @ventus/feedback-demo",
+    "test": "npm run test --workspace @ventus/feedback-contracts && npm run test --workspace @ventus/feedback-api-client && npm run test --workspace @ventus/feedback-browser && npm run test --workspace @ventus/feedback-widget && npm run test --workspace @ventus/feedback-react && npm run test --workspace @ventus/feedback-api && npm run test --workspace @ventus/feedback-mcp && npm run test --workspace @ventus/feedback-demo",
+    "typecheck": "npm run typecheck --workspace @ventus/feedback-contracts && npm run typecheck --workspace @ventus/feedback-api-client && npm run typecheck --workspace @ventus/feedback-browser && npm run typecheck --workspace @ventus/feedback-widget && npm run typecheck --workspace @ventus/feedback-react && npm run typecheck --workspace @ventus/feedback-api && npm run typecheck --workspace @ventus/feedback-mcp && npm run typecheck --workspace @ventus/feedback-demo",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "demo": "npm run dev --workspace @ventus/feedback-demo",
+    "pack:check": "npm pack --dry-run --workspace @ventus/feedback-contracts && npm pack --dry-run --workspace @ventus/feedback-api-client && npm pack --dry-run --workspace @ventus/feedback-browser && npm pack --dry-run --workspace @ventus/feedback-widget && npm pack --dry-run --workspace @ventus/feedback-react && npm pack --dry-run --workspace @ventus/feedback-mcp",
+    "audit": "npm audit --audit-level=high",
+    "release:check": "node scripts/check-release-readiness.mjs",
+    "verify": "npm run typecheck && npm test && npm run lint && npm run format:check && npm run pack:check && npm run audit"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.4",
+    "eslint": "9.39.4",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "globals": "16.4.0",
+    "prettier": "3.6.2",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.65.0"
+  },
+  "overrides": {
+    "postcss": "8.5.25",
+    "sharp": "0.35.3"
+  }
+}

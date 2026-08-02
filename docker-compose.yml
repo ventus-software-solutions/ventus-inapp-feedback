@@ -1,0 +1,69 @@
+services:
+  postgres:
+    image: postgres@sha256:742f40ea20b9ff2ff31db5458d127452988a2164df9e17441e191f3b72252193
+    environment:
+      POSTGRES_DB: ventus_feedback
+      POSTGRES_USER: ventus
+      POSTGRES_PASSWORD: ventus-local-only
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ventus -d ventus_feedback"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - ventus-postgres:/var/lib/postgresql/data
+    ports:
+      - "${VENTUS_POSTGRES_HOST_PORT:-15432}:5432"
+
+  object-storage:
+    image: minio/minio@sha256:14cea493d9a34af32f524e538b8346cf79f3321eff8e708c1e2960462bd8936e
+    command: server /data --console-address :9001
+    environment:
+      MINIO_ROOT_USER: ventus-local
+      MINIO_ROOT_PASSWORD: ventus-local-password
+    ports:
+      - "${VENTUS_S3_HOST_PORT:-19000}:9000"
+      - "9001:9001"
+    volumes:
+      - ventus-objects:/data
+
+  object-storage-init:
+    image: minio/mc@sha256:a7fe349ef4bd8521fb8497f55c6042871b2ae640607cf99d9bede5e9bdf11727
+    depends_on:
+      - object-storage
+    entrypoint: >-
+      /bin/sh -c "until mc alias set local http://object-storage:9000 ventus-local ventus-local-password; do sleep 1; done;
+      mc mb --ignore-existing local/ventus-feedback"
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    environment:
+      VENTUS_API_HOST: 0.0.0.0
+      VENTUS_API_PORT: 8080
+      VENTUS_DATABASE_URL: postgres://ventus:ventus-local-only@postgres:5432/ventus_feedback
+      VENTUS_AUTO_MIGRATE: "true"
+      VENTUS_AUTO_SEED_CONFIGURED_PROJECTS: "true"
+      VENTUS_S3_BUCKET: ventus-feedback
+      VENTUS_S3_ENDPOINT: http://object-storage:9000
+      VENTUS_S3_PUBLIC_ENDPOINT: http://localhost:${VENTUS_S3_HOST_PORT:-19000}
+      VENTUS_S3_REGION: us-east-1
+      VENTUS_S3_ACCESS_KEY_ID: ventus-local
+      VENTUS_S3_SECRET_ACCESS_KEY: ventus-local-password
+      VENTUS_S3_FORCE_PATH_STYLE: "true"
+      VENTUS_S3_SERVER_SIDE_ENCRYPTION: "false"
+      VENTUS_ALLOW_UNSCANNED_ATTACHMENTS: "true"
+      VENTUS_PROJECT_KEYS_JSON: '{"demo-browser-key":{"workspaceId":"ws_demo","projectId":"prj_demo","allowedOrigins":["http://localhost:3000"]}}'
+      VENTUS_SERVICE_TOKENS_JSON: '{"demo-service-token":{"workspaceId":"ws_demo","actorId":"svc_demo","actorType":"service_account","displayName":"Demo service","scopes":["feedback:read","feedback:triage","feedback:comment","feedback:resolve","feedback:close"]},"demo-agent-two-token":{"workspaceId":"ws_demo","actorId":"agent_two","actorType":"agent","displayName":"Second demo agent","scopes":["feedback:read","feedback:triage","feedback:comment","feedback:resolve"]}}'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      object-storage-init:
+        condition: service_completed_successfully
+    ports:
+      - "${VENTUS_API_HOST_PORT:-8080}:8080"
+
+volumes:
+  ventus-postgres:
+  ventus-objects:

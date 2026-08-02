@@ -1,0 +1,9 @@
+**/dist
+**/.next
+**/.vinext
+**/.wrangler
+**/node_modules
+package-lock.json
+packages/contracts/openapi/openapi.yaml
+apps/api/migrations
+LICENSE*

@@ -1,0 +1,44 @@
+{
+  "name": "@ventus/feedback-api-client",
+  "version": "0.1.0",
+  "description": "Typed API client for the Ventus In-App Feedback v1 API.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ventus-software-solutions/ventus-inapp-feedback.git",
+    "directory": "packages/api-client"
+  },
+  "homepage": "https://github.com/ventus-software-solutions/ventus-inapp-feedback#readme",
+  "bugs": {
+    "url": "https://github.com/ventus-software-solutions/ventus-inapp-feedback/issues"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p ./tsconfig.build.json",
+    "test": "npm run build && node --test ./test/*.test.mjs",
+    "typecheck": "tsc --noEmit -p ./tsconfig.build.json",
+    "prepublishOnly": "node ../../scripts/check-release-readiness.mjs"
+  },
+  "dependencies": {
+    "@ventus/feedback-contracts": "0.1.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

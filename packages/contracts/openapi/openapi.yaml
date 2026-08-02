@@ -1,0 +1,459 @@
+openapi: 3.1.0
+info:
+  title: Ventus In-App Feedback API
+  version: 0.1.0
+  description: Versioned contract for browser ingestion, human workflows, and agent workflows.
+servers:
+  - url: /v1
+security:
+  - bearerAuth: []
+paths:
+  /health:
+    get:
+      operationId: getHealth
+      security: []
+      responses:
+        "200": { description: Process is alive }
+  /ready:
+    get:
+      operationId: getReadiness
+      security: []
+      responses:
+        "200": { description: Dependencies are ready }
+        "503": { $ref: "#/components/responses/Error" }
+  /version:
+    get:
+      operationId: getVersion
+      security: []
+      responses:
+        "200":
+          description: Service and schema versions
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ServiceVersion" }
+  /feedback:
+    post:
+      operationId: createFeedback
+      security:
+        - projectKey: []
+        - bearerAuth: [feedback:submit]
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateFeedbackRequest" }
+      responses:
+        "201":
+          description: Feedback accepted
+          headers:
+            ETag: { schema: { type: string } }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CreateFeedbackResponse" }
+        "400": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "413": { $ref: "#/components/responses/Error" }
+        "429": { $ref: "#/components/responses/Error" }
+    get:
+      operationId: listFeedback
+      security: [{ bearerAuth: [feedback:read] }]
+      parameters:
+        - { $ref: "#/components/parameters/Cursor" }
+        - { $ref: "#/components/parameters/Limit" }
+        - { name: projectId, in: query, schema: { type: string } }
+        - { name: status, in: query, schema: { type: array, items: { $ref: "#/components/schemas/FeedbackStatus" } } }
+        - { name: category, in: query, schema: { type: array, items: { $ref: "#/components/schemas/FeedbackCategory" } } }
+        - { name: priority, in: query, schema: { type: array, items: { $ref: "#/components/schemas/FeedbackPriority" } } }
+        - { name: label, in: query, schema: { type: array, items: { type: string } } }
+        - { name: claimedBy, in: query, schema: { type: string } }
+        - { name: release, in: query, schema: { type: string } }
+        - { name: environment, in: query, schema: { type: string } }
+        - { name: search, in: query, schema: { type: string, maxLength: 256 } }
+        - { name: sort, in: query, schema: { enum: [created_at, updated_at, priority], default: created_at } }
+        - { name: order, in: query, schema: { enum: [asc, desc], default: desc } }
+      responses:
+        "200":
+          description: Cursor page
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items, nextCursor]
+                properties:
+                  items: { type: array, items: { $ref: "#/components/schemas/Feedback" } }
+                  nextCursor: { type: [string, "null"] }
+        "401": { $ref: "#/components/responses/Error" }
+  /feedback/{feedbackId}:
+    parameters:
+      - $ref: "#/components/parameters/FeedbackId"
+    get:
+      operationId: getFeedback
+      security:
+        - bearerAuth: [feedback:read]
+        - reporterToken: []
+      responses:
+        "200":
+          description: Feedback record
+          headers:
+            ETag: { schema: { type: string } }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Feedback" }
+        "404": { $ref: "#/components/responses/Error" }
+    patch:
+      operationId: updateFeedback
+      security: [{ bearerAuth: [feedback:triage] }]
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UpdateFeedbackRequest" }
+      responses:
+        "200": { $ref: "#/components/responses/Feedback" }
+        "409": { $ref: "#/components/responses/Error" }
+  /feedback/{feedbackId}/comments:
+    post:
+      operationId: addFeedbackComment
+      security: [{ bearerAuth: [feedback:comment] }]
+      parameters:
+        - $ref: "#/components/parameters/FeedbackId"
+        - $ref: "#/components/parameters/IfMatch"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [version, body]
+              properties:
+                version: { type: integer, minimum: 1 }
+                body: { type: string, minLength: 1, maxLength: 10000 }
+      responses:
+        "201": { description: Comment added }
+  /feedback/{feedbackId}/claim:
+    post:
+      operationId: claimFeedback
+      security: [{ bearerAuth: [feedback:triage] }]
+      parameters:
+        - $ref: "#/components/parameters/FeedbackId"
+        - $ref: "#/components/parameters/IfMatch"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody: { $ref: "#/components/requestBodies/LeaseMutation" }
+      responses:
+        "200": { $ref: "#/components/responses/Feedback" }
+        "409": { $ref: "#/components/responses/Error" }
+    delete:
+      operationId: releaseFeedbackClaim
+      security: [{ bearerAuth: [feedback:triage] }]
+      parameters:
+        - $ref: "#/components/parameters/FeedbackId"
+        - $ref: "#/components/parameters/IfMatch"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody: { $ref: "#/components/requestBodies/VersionMutation" }
+      responses:
+        "200": { $ref: "#/components/responses/Feedback" }
+  /feedback/{feedbackId}/claim/renew:
+    post:
+      operationId: renewFeedbackClaim
+      security: [{ bearerAuth: [feedback:triage] }]
+      parameters:
+        - $ref: "#/components/parameters/FeedbackId"
+        - $ref: "#/components/parameters/IfMatch"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody: { $ref: "#/components/requestBodies/LeaseMutation" }
+      responses:
+        "200": { $ref: "#/components/responses/Feedback" }
+        "409": { $ref: "#/components/responses/Error" }
+  /feedback/{feedbackId}/resolve:
+    post:
+      operationId: resolveFeedback
+      security: [{ bearerAuth: [feedback:resolve] }]
+      parameters:
+        - $ref: "#/components/parameters/FeedbackId"
+        - $ref: "#/components/parameters/IfMatch"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ResolveFeedbackRequest" }
+      responses:
+        "200": { $ref: "#/components/responses/Feedback" }
+        "409": { $ref: "#/components/responses/Error" }
+  /feedback/{feedbackId}/close:
+    post:
+      operationId: closeFeedback
+      security: [{ bearerAuth: [feedback:close] }]
+      parameters:
+        - $ref: "#/components/parameters/FeedbackId"
+        - $ref: "#/components/parameters/IfMatch"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody: { $ref: "#/components/requestBodies/NotedMutation" }
+      responses:
+        "200": { $ref: "#/components/responses/Feedback" }
+  /feedback/{feedbackId}/reopen:
+    post:
+      operationId: reopenFeedback
+      security:
+        - bearerAuth: [feedback:triage]
+        - reporterToken: []
+      parameters:
+        - $ref: "#/components/parameters/FeedbackId"
+        - $ref: "#/components/parameters/IfMatch"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody: { $ref: "#/components/requestBodies/NotedMutation" }
+      responses:
+        "200": { $ref: "#/components/responses/Feedback" }
+  /feedback/{feedbackId}/reject:
+    post:
+      operationId: rejectFeedback
+      security: [{ bearerAuth: [feedback:triage] }]
+      parameters:
+        - $ref: "#/components/parameters/FeedbackId"
+        - $ref: "#/components/parameters/IfMatch"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/RejectFeedbackRequest" }
+      responses:
+        "200": { $ref: "#/components/responses/Feedback" }
+  /feedback/{feedbackId}/evidence:
+    post:
+      operationId: addFeedbackEvidence
+      security: [{ bearerAuth: [feedback:comment] }]
+      parameters:
+        - $ref: "#/components/parameters/FeedbackId"
+        - $ref: "#/components/parameters/IfMatch"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody: { $ref: "#/components/requestBodies/NotedMutation" }
+      responses:
+        "201": { description: Evidence appended }
+  /feedback/{feedbackId}/events:
+    get:
+      operationId: listFeedbackEvents
+      security: [{ bearerAuth: [feedback:read] }]
+      parameters:
+        - $ref: "#/components/parameters/FeedbackId"
+        - $ref: "#/components/parameters/Cursor"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200": { description: Append-only event page }
+  /feedback/{feedbackId}/attachments:
+    post:
+      operationId: uploadFeedbackAttachment
+      security:
+        - projectKey: []
+        - bearerAuth: [feedback:comment]
+      parameters:
+        - $ref: "#/components/parameters/FeedbackId"
+        - $ref: "#/components/parameters/IfMatch"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file: { type: string, format: binary }
+                kind: { enum: [screenshot, image, text, video, other] }
+      responses:
+        "201": { description: Attachment accepted }
+        "413": { $ref: "#/components/responses/Error" }
+  /feedback/{feedbackId}/attachments/{attachmentId}:
+    get:
+      operationId: downloadFeedbackAttachment
+      security:
+        - bearerAuth: [feedback:read]
+        - reporterToken: []
+      parameters:
+        - $ref: "#/components/parameters/FeedbackId"
+        - { name: attachmentId, in: path, required: true, schema: { type: string } }
+      responses:
+        "302": { description: Short-lived authorized object-storage URL }
+        "404": { $ref: "#/components/responses/Error" }
+components:
+  securitySchemes:
+    projectKey: { type: apiKey, in: header, name: X-Feedback-Project-Key }
+    reporterToken: { type: apiKey, in: header, name: X-Feedback-Reporter-Token }
+    bearerAuth: { type: http, scheme: bearer, bearerFormat: JWT-or-service-token }
+  parameters:
+    FeedbackId: { name: feedbackId, in: path, required: true, schema: { type: string } }
+    IdempotencyKey: { name: Idempotency-Key, in: header, required: true, schema: { type: string, minLength: 8, maxLength: 200 } }
+    IfMatch: { name: If-Match, in: header, required: true, schema: { type: string }, description: Current feedback version as an ETag }
+    Cursor: { name: cursor, in: query, schema: { type: string } }
+    Limit: { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 100, default: 25 } }
+  requestBodies:
+    VersionMutation:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [version]
+            properties:
+              version: { type: integer, minimum: 1 }
+    LeaseMutation:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [version]
+            properties:
+              version: { type: integer, minimum: 1 }
+              leaseSeconds: { type: integer, minimum: 60, maximum: 86400, default: 900 }
+    NotedMutation:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [version, note]
+            properties:
+              version: { type: integer, minimum: 1 }
+              note: { type: string, minLength: 1, maxLength: 10000 }
+  responses:
+    Error:
+      description: Structured error
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ApiError" }
+    Feedback:
+      description: Updated feedback
+      headers:
+        ETag: { schema: { type: string } }
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/FeedbackMutationResponse" }
+  schemas:
+    FeedbackCategory: { type: string, enum: [bug, feedback, idea] }
+    FeedbackStatus: { type: string, enum: [new, triaged, in_progress, resolved, closed, rejected, reopened] }
+    FeedbackPriority: { type: string, enum: [unset, low, medium, high, urgent] }
+    ResolutionReason: { type: string, enum: [fixed, already_done, wont_do, duplicate, not_relevant] }
+    Actor:
+      type: object
+      required: [id, type, displayName]
+      properties:
+        id: { type: string }
+        type: { enum: [reporter, user, service_account, agent, system] }
+        displayName: { type: string }
+    Feedback:
+      type: object
+      required: [id, workspaceId, projectId, category, status, priority, title, description, labels, attachments, externalLinks, version, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        workspaceId: { type: string }
+        projectId: { type: string }
+        environment: { type: [string, "null"] }
+        category: { $ref: "#/components/schemas/FeedbackCategory" }
+        status: { $ref: "#/components/schemas/FeedbackStatus" }
+        priority: { $ref: "#/components/schemas/FeedbackPriority" }
+        title: { type: string }
+        description: { type: string }
+        sourceApp: { type: [string, "null"] }
+        release: { type: [string, "null"] }
+        url: { type: [string, "null"] }
+        labels: { type: array, maxItems: 25, items: { type: string, maxLength: 64 } }
+        context: {}
+        diagnostics: {}
+        attachments: { type: array, items: { type: object } }
+        claim: { type: [object, "null"] }
+        resolution: { type: [object, "null"] }
+        externalLinks: { type: array, items: { type: object } }
+        version: { type: integer, minimum: 1 }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+        closedAt: { type: [string, "null"], format: date-time }
+        deletedAt: { type: [string, "null"], format: date-time }
+        retainUntil: { type: [string, "null"], format: date-time }
+    CreateFeedbackRequest:
+      type: object
+      additionalProperties: false
+      required: [schemaVersion, projectId, category, title, description]
+      properties:
+        schemaVersion: { const: "1.0" }
+        projectId: { type: string, maxLength: 128 }
+        category: { $ref: "#/components/schemas/FeedbackCategory" }
+        title: { type: string, minLength: 1, maxLength: 140 }
+        description: { type: string, minLength: 1, maxLength: 5000 }
+        sourceApp: { type: string, maxLength: 128 }
+        release: { type: string, maxLength: 128 }
+        environment: { type: string, maxLength: 128 }
+        url: { type: string, maxLength: 2048 }
+        context: {}
+        diagnostics: {}
+        reporterTokenRequested: { type: boolean, default: false }
+    CreateFeedbackResponse:
+      type: object
+      required: [feedback]
+      properties:
+        feedback: { $ref: "#/components/schemas/Feedback" }
+        reporterToken: { type: string, description: Returned only once and stored hashed }
+    UpdateFeedbackRequest:
+      type: object
+      required: [version]
+      properties:
+        version: { type: integer, minimum: 1 }
+        priority: { $ref: "#/components/schemas/FeedbackPriority" }
+        labels: { type: array, maxItems: 25, items: { type: string, maxLength: 64 } }
+        title: { type: string, minLength: 1, maxLength: 140 }
+        category: { $ref: "#/components/schemas/FeedbackCategory" }
+    ResolveFeedbackRequest:
+      type: object
+      required: [version, reason, summary]
+      properties:
+        version: { type: integer, minimum: 1 }
+        reason: { $ref: "#/components/schemas/ResolutionReason" }
+        summary: { type: string, minLength: 1, maxLength: 10000 }
+        duplicateOfId: { type: string }
+        links: { type: array, maxItems: 20, items: { type: object } }
+    RejectFeedbackRequest:
+      type: object
+      required: [version, reason, note]
+      properties:
+        version: { type: integer, minimum: 1 }
+        reason: { enum: [already_done, wont_do, duplicate, not_relevant] }
+        note: { type: string, minLength: 1, maxLength: 10000 }
+        duplicateOfId: { type: string }
+    FeedbackMutationResponse:
+      type: object
+      required: [feedback]
+      properties:
+        feedback: { $ref: "#/components/schemas/Feedback" }
+    ServiceVersion:
+      type: object
+      required: [service, applicationVersion, apiVersion, schemaVersion]
+      properties:
+        service: { const: ventus-feedback-api }
+        applicationVersion: { type: string }
+        apiVersion: { const: v1 }
+        schemaVersion: { const: "1.0" }
+    ApiError:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message, requestId]
+          properties:
+            code: { enum: [bad_request, unauthorized, forbidden, not_found, conflict, validation_failed, rate_limited, payload_too_large, internal_error] }
+            message: { type: string }
+            requestId: { type: string }
+            details:
+              type: array
+              items:
+                type: object
+                required: [path, message]
+                properties:
+                  path: { type: string }
+                  message: { type: string }
