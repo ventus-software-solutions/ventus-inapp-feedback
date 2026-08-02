@@ -299,10 +299,11 @@ npm run demo
 ```
 
 To dogfood the complete browser-to-agent flow on conflict-free local ports,
-start the complete stack with one command:
+start the complete stack with one command. It uses the published API image when
+available and falls back to the included build definition for contributors:
 
 ```bash
-docker compose up --build
+docker compose up
 ```
 
 Open `http://localhost:3100`. Submissions from the capture form and fixed widget
@@ -323,7 +324,8 @@ non-mutating Prettier check, package-tarball inspection, and the dependency
 audit. Use `npm run format` to apply the repository style before rerunning it.
 
 Start the complete local demo and backend on ports 3100, 8180, 15433, 19001,
-and 19002:
+and 19002. Add `--build` when you want to test local API source changes instead
+of the published `ghcr.io/ventus-software-solutions/feedback-api:beta` image:
 
 ```bash
 docker compose up --build

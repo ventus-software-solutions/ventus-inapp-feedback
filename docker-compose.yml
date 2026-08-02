@@ -36,6 +36,7 @@ services:
       mc mb --ignore-existing local/ventus-feedback"
 
   api:
+    image: ${VENTUS_API_IMAGE:-ghcr.io/ventus-software-solutions/feedback-api:beta}
     build:
       context: .
       dockerfile: apps/api/Dockerfile

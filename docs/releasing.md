@@ -1,8 +1,8 @@
 # Releasing Ventus In-App Feedback
 
 The browser integration packages and MCP adapter are published as public npm
-packages. The self-hosted API is distributed through the repository and Docker
-images, not npm.
+packages. The self-hosted API is distributed through the repository and the
+versioned `ghcr.io/ventus-software-solutions/feedback-api` image, not npm.
 
 ## One-time npm setup
 

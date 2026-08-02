@@ -10,14 +10,15 @@
   "scripts": {
     "dev": "vinext dev",
     "build": "vinext build",
+    "build:showcase": "vite build --config vite.showcase.config.ts",
     "start": "vinext start",
-    "test": "npm run build && node --test tests/rendered-html.test.mjs",
+    "test": "npm run build && npm run build:showcase && node --test tests/*.test.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "eslint ."
   },
   "dependencies": {
-    "@ventus-software-solutions/feedback-browser": "0.1.0-beta.1",
-    "@ventus-software-solutions/feedback-react": "0.1.0-beta.1",
+    "@ventus-software-solutions/feedback-browser": "0.1.0-beta.2",
+    "@ventus-software-solutions/feedback-react": "0.1.0-beta.2",
     "html2canvas-pro": "^2.3.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"

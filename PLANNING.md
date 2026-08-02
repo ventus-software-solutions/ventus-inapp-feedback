@@ -15,12 +15,12 @@ authentication, Docker Compose, and a stdio MCP adapter. The real Compose smoke
 flow passes create, attachment upload and signed download, claim, resolve,
 independent close, and audit-event verification.
 
-The repository is not ready for public publication. The hard release gates are
-the legal/license and npm/repository identity decisions in Phase 0, deeper browser
-and accessibility coverage, production malware-scanner wiring, retention/data
-rights, remote MCP authentication/transport if offered, operational telemetry,
-and release signing/provenance. External integrations remain out of scope until
-an actual prerelease survives the in-repo demo acceptance period.
+The repository and six integration packages are publicly available as a beta.
+The local Docker stack and browser-to-agent smoke flow are operational, and the
+public showcase uses a backend-free simulation. Stable production readiness
+still requires deeper browser and accessibility coverage, production
+malware-scanner wiring, final retention/data-rights policy, operational
+telemetry, legal review, and a successful beta dogfooding period.
 
 ## Product goals
 
@@ -473,34 +473,34 @@ requires a commercial plan and the repository has no Vercel-specific advantage.
 The public showcase is not a hosted Ventus backend and must never imply that
 reports are persisted, processed by a real agent, or sent to Ventus.
 
-- [ ] Create a dedicated static showcase entry point rather than forcing the SSR-capable local dogfooding app into a Pages build.
-- [ ] Reuse the published browser SDK, Web Component, React wrapper, brand attribution, and visual language through public package exports.
-- [ ] Add a prominent notice that the showcase uses synthetic data and that nothing is uploaded or saved.
-- [ ] Keep all submissions in memory and clear them on refresh; do not use project keys, service tokens, cookies, analytics, or remote API calls.
-- [ ] Let visitors open the widget, choose bug/feedback/idea, toggle diagnostic groups, capture a locally generated masked screenshot, and inspect the sanitized structured payload.
-- [ ] Add a simulated agent timeline showing search, claim, comment, evidence, resolve, verify, close, and reopen without presenting simulated actions as real automation.
-- [ ] Show the simulated backend record and sanitized JSON beside the reporter UI, with a synthetic feedback ID and explicit copy explaining that a real deployment stores it in the user's self-hosted backend.
-- [ ] Animate representative MCP calls such as `search_feedback`, `claim_feedback`, `comment_feedback`, `add_feedback_evidence`, `resolve_feedback`, and `close_feedback`, with pause, manual-step, reopen, and reset controls.
-- [ ] Keep a persistent `Simulation — nothing is uploaded or saved` indicator visible throughout the workflow and respect reduced-motion preferences.
-- [ ] Include concise links to installation, the one-command local stack, agent/MCP documentation, licensing, and the source repository.
+- [x] Create a dedicated static showcase entry point rather than forcing the SSR-capable local dogfooding app into a Pages build.
+- [x] Reuse the published browser SDK, Web Component, React wrapper, brand attribution, and visual language through public package exports.
+- [x] Add a prominent notice that the showcase uses synthetic data and that nothing is uploaded or saved.
+- [x] Keep all submissions in memory and clear them on refresh; do not use project keys, service tokens, cookies, analytics, or remote API calls.
+- [x] Let visitors open the widget, choose bug/feedback/idea, toggle diagnostic groups, capture a locally generated masked screenshot, and inspect the sanitized structured payload.
+- [x] Add a simulated agent timeline showing search, claim, comment, evidence, resolve, verify, close, and reopen without presenting simulated actions as real automation.
+- [x] Show the simulated backend record and sanitized JSON beside the reporter UI, with a synthetic feedback ID and explicit copy explaining that a real deployment stores it in the user's self-hosted backend.
+- [x] Animate representative MCP calls such as `search_feedback`, `claim_feedback`, `comment_feedback`, `add_feedback_evidence`, `resolve_feedback`, and `close_feedback`, with pause, manual-step, reopen, and reset controls.
+- [x] Keep a persistent `Simulation — nothing is uploaded or saved` indicator visible throughout the workflow and respect reduced-motion preferences.
+- [x] Include concise links to installation, the one-command local stack, agent/MCP documentation, licensing, and the source repository.
 - [ ] Use a Ventus-owned canonical URL and include visible links back to `ventus.works`, installation docs, licensing, and the source repository.
-- [ ] Add a public-showcase build mode with no server-only data path and no dependency on a running feedback API.
-- [ ] Add a pull-request build check before enabling deployment.
-- [ ] Add a dedicated deployment workflow for the selected Sites/Pages target, with actions pinned to reviewed commit SHAs and deployment restricted to `main`.
-- [ ] Add automated checks proving the published bundle contains no API endpoint, project key, agent token, real report data, or network submission path.
+- [x] Add a public-showcase build mode with no server-only data path and no dependency on a running feedback API.
+- [x] Add a pull-request build check before enabling deployment.
+- [x] Add a dedicated deployment workflow for the selected Sites/Pages target, with actions pinned to reviewed commit SHAs and deployment restricted to `main`.
+- [x] Add automated checks proving the published bundle contains no API endpoint, project key, agent token, real report data, or network submission path.
 - [ ] Complete keyboard, mobile, WCAG 2.2 AA, reduced-motion, screenshot-masking, and privacy-copy review before the first public deployment.
 - [ ] Configure the Ventus custom domain only after the showcase artifact and privacy gates pass.
-- [ ] Keep a documented GitHub Pages fallback that supports `/ventus-inapp-feedback/` if the preferred target becomes unavailable.
-- [ ] Keep the static build base-path-safe and provide a manually triggerable GitHub Pages deployment workflow so the fallback is continuously testable rather than theoretical.
+- [x] Keep a documented GitHub Pages fallback that supports `/ventus-inapp-feedback/` if the preferred target becomes unavailable.
+- [x] Keep the static build base-path-safe and provide a manually triggerable GitHub Pages deployment workflow so the fallback is continuously testable rather than theoretical.
 
 ### Public showcase acceptance
 
 - [ ] A visitor can understand the reporter-to-agent workflow without documentation or a running backend.
 - [ ] Every interaction works from the canonical public URL on a fresh browser session.
-- [ ] Refreshing removes every synthetic report and local artifact.
-- [ ] Browser network inspection shows no feedback submission or user-data collection.
-- [ ] The page clearly distinguishes the interactive simulation from the self-hosted product.
-- [ ] The showcase build and deployment are reproducible from the default branch.
+- [x] Refreshing removes every synthetic report and local artifact.
+- [x] Browser network inspection shows no feedback submission or user-data collection.
+- [x] The page clearly distinguishes the interactive simulation from the self-hosted product.
+- [x] The showcase build and deployment are reproducible from the default branch.
 
 ## Phase 3 exit criteria
 
@@ -887,10 +887,10 @@ The MCP server is an adapter over the HTTP API. It must not bypass API authoriza
 ## 9.2 npm publishing
 
 - [x] Reserve or create the npm organization scope.
-- [ ] Publish initial packages manually or as staged releases to establish ownership.
-- [ ] Configure npm trusted publishing with OIDC.
-- [ ] Publish from protected release tags or approved release environments.
-- [ ] Generate provenance for public packages.
+- [x] Publish initial packages manually or as staged releases to establish ownership.
+- [x] Configure npm trusted publishing with OIDC.
+- [x] Publish from protected release tags or approved release environments.
+- [x] Generate provenance for public packages.
 - [x] Require builds, tests, package inspection, and license checks before publishing.
 - [x] Add an idempotent package-set publisher that validates matching versions, release tags, prerelease channels, internal dependencies, and publication order.
 - [ ] Verify package installation from npm in clean example projects.

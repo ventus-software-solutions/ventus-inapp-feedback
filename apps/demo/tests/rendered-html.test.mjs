@@ -21,18 +21,21 @@ test("server-renders the capture lab", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /<title>Ventus Feedback Capture Lab<\/title>/i);
+  assert.match(
+    html,
+    /<title>Ventus In-App Feedback — Interactive Simulation<\/title>/i,
+  );
+  assert.match(html, /property="og:image"/i);
   assert.match(html, /Capture Lab/);
-  assert.match(html, /Break things here before customers do\./);
+  assert.match(html, /Turn customer feedback into agent-ready work\./);
   assert.match(html, /Synthetic scenarios/);
   assert.match(html, /Captured payload/);
   assert.match(html, /Viewport screenshot/);
   assert.match(html, /Masked browser capture/);
-  assert.match(html, /Mock mode · 0\.1/);
-  assert.match(
-    html,
-    /real self-hosted API or the disposable\s+mock transport/i,
-  );
+  assert.match(html, /Simulation · 0\.1/);
+  assert.match(html, /Nothing is uploaded or saved/i);
+  assert.match(html, /search_feedback/);
+  assert.match(html, /close_feedback/);
   assert.match(html, /immediately available to agents/i);
   assert.doesNotMatch(html, /Expected loader error/i);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);

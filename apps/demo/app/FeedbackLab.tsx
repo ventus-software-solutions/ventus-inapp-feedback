@@ -16,6 +16,8 @@ const feedbackEndpoint = import.meta.env.VITE_VENTUS_FEEDBACK_ENDPOINT?.trim();
 const feedbackProjectKey =
   import.meta.env.VITE_VENTUS_FEEDBACK_PROJECT_KEY?.trim();
 const isLiveApiMode = Boolean(feedbackEndpoint && feedbackProjectKey);
+const isPublicShowcaseMode =
+  import.meta.env.VITE_VENTUS_SHOWCASE === "true" && !isLiveApiMode;
 
 const demoFeedbackTransport: FeedbackTransport<DemoContext> = isLiveApiMode
   ? createHttpFeedbackTransport<DemoContext>({
@@ -37,6 +39,49 @@ type DemoContext = {
   testerEmail: string;
   password: string;
 };
+
+const simulationStages = [
+  {
+    label: "Saved in your backend",
+    operation: "POST /v1/feedback",
+    detail: "The structured report and approved diagnostics are persisted.",
+    status: "new",
+  },
+  {
+    label: "Discovered through MCP",
+    operation: "search_feedback",
+    detail:
+      "An agent searches for new bugs and receives the stable feedback ID.",
+    status: "new",
+  },
+  {
+    label: "Claimed by an agent",
+    operation: "claim_feedback",
+    detail:
+      "An expiring lease prevents two agents from implementing the same task.",
+    status: "in_progress",
+  },
+  {
+    label: "Progress recorded",
+    operation: "comment_feedback · add_feedback_evidence",
+    detail:
+      "The agent links its commit and attaches test evidence to the report.",
+    status: "in_progress",
+  },
+  {
+    label: "Marked resolved",
+    operation: "resolve_feedback",
+    detail: "Implementation is complete and awaits independent verification.",
+    status: "resolved",
+  },
+  {
+    label: "Verified and closed",
+    operation: "close_feedback",
+    detail:
+      "A human or verification agent confirms the fix before final closure.",
+    status: "closed",
+  },
+] as const;
 
 const formatPayload = (value: unknown) => JSON.stringify(value, null, 2);
 const INITIAL_TITLE = "Checkout stalled after payment";
@@ -72,6 +117,8 @@ export function FeedbackLab() {
   const [receipt, setReceipt] = useState<FeedbackReceipt | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isCaptureActive, setIsCaptureActive] = useState(true);
+  const [simulationStep, setSimulationStep] = useState(-1);
+  const [simulationIsPlaying, setSimulationIsPlaying] = useState(true);
   const [runState, setRunState] = useState<RunState>({
     tone: "idle",
     message: "Capture is initialized and waiting for a scenario.",
@@ -101,6 +148,23 @@ export function FeedbackLab() {
       capture.destroy();
     };
   }, [capture]);
+
+  useEffect(() => {
+    if (
+      isLiveApiMode ||
+      !receipt ||
+      !simulationIsPlaying ||
+      simulationStep < 0 ||
+      simulationStep >= simulationStages.length - 1
+    ) {
+      return;
+    }
+    const timer = window.setTimeout(
+      () => setSimulationStep((current) => current + 1),
+      1150,
+    );
+    return () => window.clearTimeout(timer);
+  }, [receipt, simulationIsPlaying, simulationStep]);
 
   const refreshPayload = () => {
     const nextPayload = capture.getPayload({
@@ -193,9 +257,18 @@ export function FeedbackLab() {
   };
 
   const runNetworkScenario = async () => {
-    await fetch(
-      "/api/synthetic-failure?token=network-secret&scenario=checkout",
-    );
+    if (isPublicShowcaseMode) {
+      capture.recordNetworkFailure({
+        method: "POST",
+        url: "https://api.example.test/checkout?token=network-secret&scenario=checkout",
+        status: 503,
+        durationMs: 184,
+      });
+    } else {
+      await fetch(
+        "/api/synthetic-failure?token=network-secret&scenario=checkout",
+      );
+    }
     setRunState({
       tone: "success",
       message: "A failed request was captured without its secret query value.",
@@ -260,11 +333,15 @@ export function FeedbackLab() {
         createFeedbackSubmission({ payload: nextPayload }),
       );
       setReceipt(nextReceipt);
+      if (!isLiveApiMode) {
+        setSimulationStep(0);
+        setSimulationIsPlaying(true);
+      }
       setRunState({
         tone: "success",
         message: isLiveApiMode
           ? `Saved ${nextReceipt.id} to the local API. It is ready for an agent to claim.`
-          : "The mock transport accepted the feedback payload.",
+          : "Simulation started. Nothing was uploaded or saved.",
       });
     } catch (error) {
       setRunState({
@@ -279,8 +356,37 @@ export function FeedbackLab() {
     }
   };
 
+  const resetSimulation = () => {
+    setReceipt(null);
+    setSimulationStep(-1);
+    setSimulationIsPlaying(true);
+    setRunState({
+      tone: "idle",
+      message: "Simulation reset. Nothing from the previous run was retained.",
+    });
+  };
+
+  const reopenSimulation = () => {
+    setSimulationStep(2);
+    setSimulationIsPlaying(true);
+    setRunState({
+      tone: "success",
+      message: "The synthetic report was reopened with new evidence.",
+    });
+  };
+
   return (
     <main className="lab-shell">
+      {!isLiveApiMode ? (
+        <aside className="simulation-notice" role="note">
+          <strong>Interactive simulation</strong>
+          <span>
+            Nothing is uploaded or saved. In a real installation, this report is
+            stored in your self-hosted backend and becomes available to your
+            coding agent through MCP.
+          </span>
+        </aside>
+      ) : null}
       <header className="lab-header">
         <div className="brand-mark" aria-hidden="true">
           VF
@@ -290,19 +396,28 @@ export function FeedbackLab() {
           <h1>Capture Lab</h1>
         </div>
         <span className={`phase-badge ${isLiveApiMode ? "live" : "mock"}`}>
-          {isLiveApiMode ? "Live API · 0.1" : "Mock mode · 0.1"}
+          {isLiveApiMode ? "Live API · 0.1" : "Simulation · 0.1"}
         </span>
       </header>
 
       <section className="hero" aria-labelledby="hero-title">
         <div>
-          <p className="eyebrow">In-repo dogfood environment</p>
-          <h2 id="hero-title">Break things here before customers do.</h2>
+          <p className="eyebrow">
+            {isLiveApiMode
+              ? "In-repo dogfood environment"
+              : "Reporter-to-agent showcase"}
+          </p>
+          <h2 id="hero-title">
+            {isLiveApiMode
+              ? "Break things here before customers do."
+              : "Turn customer feedback into agent-ready work."}
+          </h2>
           <p className="hero-copy">
             This playground consumes the browser SDK through its public package
-            export. Run a synthetic failure, inspect the captured payload, and
-            send it through either the real self-hosted API or the disposable
-            mock transport.
+            export. Run a synthetic failure, inspect the captured payload, and{" "}
+            {isLiveApiMode
+              ? "send it through the real self-hosted API."
+              : "see how your self-hosted backend and coding agent would carry it from submission to verified closure."}
           </p>
         </div>
         <div className="signal-card" aria-label="Current package boundary">
@@ -314,7 +429,7 @@ export function FeedbackLab() {
           <i aria-hidden="true">↓</i>
           <span>{isLiveApiMode ? "Connected API" : "Transport"}</span>
           <strong>
-            {isLiveApiMode ? feedbackEndpoint : "Disposable local mock"}
+            {isLiveApiMode ? feedbackEndpoint : "In-memory simulation"}
           </strong>
         </div>
       </section>
@@ -446,14 +561,14 @@ export function FeedbackLab() {
                   ? "Sending…"
                   : isLiveApiMode
                     ? "Send to local API"
-                    : "Send to mock transport"}
+                    : "Simulate submission"}
               </button>
             </div>
           </form>
 
           {receipt ? (
             <div className="receipt" role="status">
-              <span>{isLiveApiMode ? "Saved to API" : "Accepted"}</span>
+              <span>{isLiveApiMode ? "Saved to API" : "Synthetic report"}</span>
               <code>{receipt.id}</code>
               <time dateTime={receipt.createdAt}>
                 {new Date(receipt.createdAt).toLocaleTimeString()}
@@ -487,10 +602,118 @@ export function FeedbackLab() {
         </section>
       </div>
 
+      {!isLiveApiMode ? (
+        <section
+          className="panel workflow-panel"
+          aria-labelledby="workflow-title"
+        >
+          <div className="panel-heading">
+            <div>
+              <p className="step">03 · Follow the work</p>
+              <h3 id="workflow-title">From backend record to verified fix</h3>
+            </div>
+            <span className="simulation-pill">Simulation · no upload</span>
+          </div>
+          <div className="workflow-grid">
+            <div className="backend-record">
+              <span className="record-label">
+                Your self-hosted backend would store
+              </span>
+              <pre tabIndex={0}>
+                {receipt
+                  ? formatPayload({
+                      id: receipt.id,
+                      status:
+                        simulationStages[Math.max(0, simulationStep)]?.status ??
+                        "new",
+                      category: "bug",
+                      title,
+                      description,
+                      sourceApp: payload?.sourceApp ?? "demo",
+                      diagnostics: {
+                        errors: payload?.errors.length ?? 0,
+                        networkFailures: payload?.networkErrors.length ?? 0,
+                        breadcrumbs: payload?.breadcrumbs.length ?? 0,
+                      },
+                      persisted: false,
+                      simulation: true,
+                    })
+                  : "Submit through the form or widget to create a synthetic record."}
+              </pre>
+            </div>
+            <ol className="agent-timeline" aria-live="polite">
+              {simulationStages.map((stage, index) => (
+                <li
+                  className={
+                    index < simulationStep
+                      ? "complete"
+                      : index === simulationStep
+                        ? "active"
+                        : "pending"
+                  }
+                  key={stage.operation}
+                >
+                  <span className="timeline-index">{index + 1}</span>
+                  <div>
+                    <strong>{stage.label}</strong>
+                    <code>{stage.operation}</code>
+                    <p>{stage.detail}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+          <div className="workflow-actions">
+            <button
+              type="button"
+              className="secondary-action"
+              disabled={
+                !receipt || simulationStep >= simulationStages.length - 1
+              }
+              onClick={() => setSimulationIsPlaying((current) => !current)}
+            >
+              {simulationIsPlaying ? "Pause" : "Continue"}
+            </button>
+            <button
+              type="button"
+              className="secondary-action"
+              disabled={
+                !receipt || simulationStep >= simulationStages.length - 1
+              }
+              onClick={() => {
+                setSimulationIsPlaying(false);
+                setSimulationStep((current) =>
+                  Math.min(current + 1, simulationStages.length - 1),
+                );
+              }}
+            >
+              Next step
+            </button>
+            <button
+              type="button"
+              className="secondary-action"
+              disabled={simulationStep !== simulationStages.length - 1}
+              onClick={reopenSimulation}
+            >
+              Reopen report
+            </button>
+            <button
+              type="button"
+              className="secondary-action"
+              onClick={resetSimulation}
+            >
+              Reset
+            </button>
+          </div>
+        </section>
+      ) : null}
+
       <section className="panel" aria-labelledby="widget-dogfood-title">
         <div className="panel-heading">
           <div>
-            <p className="step">03 · Dogfood public UI</p>
+            <p className="step">
+              {isLiveApiMode ? "03" : "04"} · Try the public UI
+            </p>
             <h3 id="widget-dogfood-title">Framework-neutral widget</h3>
           </div>
           <span className="live-dot">Web Component</span>
@@ -533,8 +756,12 @@ export function FeedbackLab() {
               tone: "success",
               message: isLiveApiMode
                 ? `Saved ${widgetReceipt.id} to the local API. It is ready for an agent to claim.`
-                : "The mock transport accepted the widget submission.",
+                : "Simulation started from the widget. Nothing was uploaded or saved.",
             });
+            if (!isLiveApiMode) {
+              setSimulationStep(0);
+              setSimulationIsPlaying(true);
+            }
           }}
           onError={({ error }) =>
             setRunState({
@@ -548,13 +775,46 @@ export function FeedbackLab() {
         />
       </section>
 
+      {!isLiveApiMode ? (
+        <section className="install-panel" aria-labelledby="install-title">
+          <div>
+            <p className="step">Ready for the real workflow?</p>
+            <h3 id="install-title">Start locally with one command.</h3>
+            <p>
+              Run the self-hosted API, PostgreSQL, object storage, and this demo
+              together. Your reports stay in infrastructure you control.
+            </p>
+          </div>
+          <code>docker compose up</code>
+          <nav aria-label="Project resources">
+            <a href="https://github.com/ventus-software-solutions/ventus-inapp-feedback#local-development">
+              Installation
+            </a>
+            <a href="https://github.com/ventus-software-solutions/ventus-inapp-feedback/tree/main/apps/mcp-server#readme">
+              Agent and MCP guide
+            </a>
+            <a href="https://github.com/ventus-software-solutions/ventus-inapp-feedback#licensing">
+              Licensing
+            </a>
+            <a href="https://www.npmjs.com/org/ventus-software-solutions">
+              npm packages
+            </a>
+          </nav>
+        </section>
+      ) : null}
+
       <footer>
-        <span>Local-only dogfood surface</span>
+        <span>
+          {isLiveApiMode ? "Local dogfood surface" : "Browser-only simulation"}
+        </span>
         <span>
           {isLiveApiMode
             ? "Capture core + self-hosted API + agent queue"
-            : "Capture core + mock transport + Web Component"}
+            : "No account · no backend · no uploaded data"}
         </span>
+        <a href="https://github.com/ventus-software-solutions/ventus-inapp-feedback#local-development">
+          Run the real stack locally
+        </a>
       </footer>
     </main>
   );
