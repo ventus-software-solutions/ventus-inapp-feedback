@@ -16,8 +16,8 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@ventus-software-solutions/feedback-browser": "0.1.0",
-    "@ventus-software-solutions/feedback-react": "0.1.0",
+    "@ventus-software-solutions/feedback-browser": "0.1.0-beta.1",
+    "@ventus-software-solutions/feedback-react": "0.1.0-beta.1",
     "html2canvas-pro": "^2.3.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"

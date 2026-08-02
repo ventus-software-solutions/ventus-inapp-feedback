@@ -1,6 +1,6 @@
 {
   "name": "@ventus-software-solutions/feedback-contracts",
-  "version": "0.1.0",
+  "version": "0.1.0-beta.1",
   "description": "Domain model, state machine, API types, and OpenAPI contract for Ventus In-App Feedback.",
   "license": "MIT",
   "repository": {
