@@ -43,6 +43,64 @@ access to your application repository or deploy changes by itself. The agent
 must already run in an environment with the appropriate source-control, test,
 and deployment access.
 
+## Common use cases
+
+### Turn a customer bug report into a verified fix
+
+1. A customer notices that checkout is stuck and opens the feedback widget
+   without leaving the application.
+2. They describe what happened and optionally include a screenshot. With their
+   consent, the report also contains the current release, page URL, recent
+   actions, JavaScript errors, and failed network requests.
+3. A developer asks a coding agent to find new checkout bugs. The agent calls
+   `search_feedback`, retrieves the structured record with `get_feedback`, and
+   downloads any authorized attachments.
+4. The agent claims the report, analyzes the screenshot and diagnostics, opens
+   the application repository using its normal development tools, reproduces
+   the problem, and implements the fix.
+5. The agent runs the relevant tests, commits the change, leaves a progress or
+   completion comment, attaches the commit and test results as evidence, and
+   marks the report resolved.
+6. A human or independently authorized verification agent tests the result and
+   closes the report. If the test fails or the customer supplies new evidence,
+   the report is reopened without losing its history.
+
+Ventus recommends separating implementation from final closure. Small teams can
+grant the same agent `feedback:close` when they intentionally want one agent to
+perform the entire workflow, but the default scopes keep that final decision
+independent.
+
+### Triage feature requests without losing context
+
+A user can submit an `idea` directly from the feature they want improved. The
+report keeps its application, release, environment, URL, and optional screenshot
+attached. Product teams or agents can label it, set priority, comment, reject it
+with an explicit reason, link it to an issue or pull request, and revisit the
+complete audit trail later.
+
+### Diagnose bugs that are difficult to reproduce
+
+Instead of receiving “it does not work” by email, developers receive bounded and
+redacted browser errors, failed requests, console entries, performance details,
+and recent actions alongside the user's explanation. The reporter controls the
+optional diagnostic groups, while application-defined redaction and screenshot
+masking run before submission.
+
+### Dogfood your own product with coding agents
+
+Teams can install the widget in internal, staging, or production applications
+and treat real product feedback as a structured engineering queue. Agents can
+claim work without colliding, leave handoff comments, renew or release leases,
+attach implementation evidence, and move reports through resolution and
+verification without inventing a second task format.
+
+An implementation request can be as direct as:
+
+> Find the newest unclaimed checkout bug. Claim it, inspect the report and
+> screenshot, reproduce the issue in the application repository, implement and
+> test the fix, commit it, attach the commit and test evidence, and resolve the
+> report. Leave final closure to the verifier.
+
 ## Structured reports instead of unstructured messages
 
 Every report has a stable ID and a schema-versioned record, so agents do not
@@ -144,13 +202,12 @@ The available statuses are `new`, `triaged`, `in_progress`, `resolved`,
 `already_done`, `wont_do`, `duplicate`, and `not_relevant` rather than reducing
 every outcome to “done.”
 
-An example instruction for an implementation agent is:
+An example instruction for a verification agent is:
 
-> Search for high-priority open bug reports affecting the current production
-> release. Claim one report, inspect its diagnostics and history, reproduce the
-> problem, and implement and test the fix in the application repository. Leave
-> progress comments when useful, attach the commit and test evidence, and resolve
-> the report. Do not close it; closure belongs to the verifier.
+> Find resolved bug reports awaiting verification. Read the report, resolution,
+> linked change, and test evidence. Verify the original reproduction steps
+> against the fixed release. Close the report with a verification note when it
+> passes; otherwise reopen it with the failed step and new evidence.
 
 See the [MCP server guide](apps/mcp-server/README.md) for installation,
 configuration, and the complete tool contract.
