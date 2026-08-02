@@ -37,7 +37,7 @@ jobs:
       - run: docker compose up --build --wait
       - name: Smoke API
         env:
-          VENTUS_SMOKE_API_URL: http://127.0.0.1:8080/v1
+          VENTUS_SMOKE_API_URL: http://127.0.0.1:8180/v1
           VENTUS_SMOKE_PROJECT_KEY: demo-browser-key
           VENTUS_SMOKE_AGENT_TOKEN: demo-service-token
           VENTUS_SMOKE_VERIFIER_TOKEN: demo-service-token
@@ -45,12 +45,12 @@ jobs:
         run: node scripts/smoke-api.mjs
       - name: Smoke retention cleanup
         env:
-          VENTUS_SMOKE_API_URL: http://127.0.0.1:8080/v1
-          VENTUS_SMOKE_DATABASE_URL: postgres://ventus:ventus-local-only@127.0.0.1:15432/ventus_feedback
+          VENTUS_SMOKE_API_URL: http://127.0.0.1:8180/v1
+          VENTUS_SMOKE_DATABASE_URL: postgres://ventus:ventus-local-only@127.0.0.1:15433/ventus_feedback
           VENTUS_SMOKE_PROJECT_KEY: demo-browser-key
           VENTUS_SMOKE_AGENT_TOKEN: demo-service-token
           VENTUS_SMOKE_VERIFIER_TOKEN: demo-service-token
-          VENTUS_SMOKE_S3_ENDPOINT: http://127.0.0.1:19000
+          VENTUS_SMOKE_S3_ENDPOINT: http://127.0.0.1:19001
         run: node scripts/smoke-retention.mjs
       - if: always()
         run: docker compose down
