@@ -14,6 +14,8 @@ The integration packages are open source. The self-hosted backend is
 source-available under the Business Source License. The project is currently
 pre-release.
 
+**[Try the live, browser-only workflow showcase](https://ventus-software-solutions.github.io/ventus-inapp-feedback/)** — it simulates submission, backend storage, and the complete MCP agent lifecycle without uploading or saving any data.
+
 ## How it works
 
 ```mermaid

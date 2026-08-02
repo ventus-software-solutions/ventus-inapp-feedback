@@ -483,7 +483,7 @@ reports are persisted, processed by a real agent, or sent to Ventus.
 - [x] Animate representative MCP calls such as `search_feedback`, `claim_feedback`, `comment_feedback`, `add_feedback_evidence`, `resolve_feedback`, and `close_feedback`, with pause, manual-step, reopen, and reset controls.
 - [x] Keep a persistent `Simulation — nothing is uploaded or saved` indicator visible throughout the workflow and respect reduced-motion preferences.
 - [x] Include concise links to installation, the one-command local stack, agent/MCP documentation, licensing, and the source repository.
-- [ ] Use a Ventus-owned canonical URL and include visible links back to `ventus.works`, installation docs, licensing, and the source repository.
+- [ ] Use a Ventus-owned canonical URL; the live GitHub Pages fallback already includes visible links back to `ventus.works`, installation docs, licensing, and the source repository.
 - [x] Add a public-showcase build mode with no server-only data path and no dependency on a running feedback API.
 - [x] Add a pull-request build check before enabling deployment.
 - [x] Add a dedicated deployment workflow for the selected Sites/Pages target, with actions pinned to reviewed commit SHAs and deployment restricted to `main`.
@@ -495,8 +495,8 @@ reports are persisted, processed by a real agent, or sent to Ventus.
 
 ### Public showcase acceptance
 
-- [ ] A visitor can understand the reporter-to-agent workflow without documentation or a running backend.
-- [ ] Every interaction works from the canonical public URL on a fresh browser session.
+- [x] A visitor can understand the reporter-to-agent workflow without documentation or a running backend.
+- [x] Every interaction works from the public GitHub Pages fallback on a fresh browser session; repeat this check when the Ventus-owned canonical domain is connected.
 - [x] Refreshing removes every synthetic report and local artifact.
 - [x] Browser network inspection shows no feedback submission or user-data collection.
 - [x] The page clearly distinguishes the interactive simulation from the self-hosted product.
