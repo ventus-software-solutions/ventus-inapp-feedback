@@ -1,4 +1,4 @@
-FROM node:22.19.0-bookworm-slim@sha256:4a4884e8a44826194dff92ba316264f392056cbe243dcc9fd3551e71cea02b90 AS build
+FROM node:26.5.0-bookworm-slim@sha256:2d49d876e96237d76de412761cf05dbfe5aee325cc4406a4d41d5824c5bb8beb AS build
 WORKDIR /app
 COPY . .
 RUN npm ci --ignore-scripts --workspace @ventus-software-solutions/feedback-contracts --workspace @ventus-software-solutions/feedback-browser --workspace @ventus-software-solutions/feedback-api --include-workspace-root
@@ -6,7 +6,7 @@ RUN npm run build --workspace @ventus-software-solutions/feedback-contracts \
  && npm run build --workspace @ventus-software-solutions/feedback-browser \
  && npm run build --workspace @ventus-software-solutions/feedback-api
 
-FROM node:22.19.0-bookworm-slim@sha256:4a4884e8a44826194dff92ba316264f392056cbe243dcc9fd3551e71cea02b90 AS runtime
+FROM node:26.5.0-bookworm-slim@sha256:2d49d876e96237d76de412761cf05dbfe5aee325cc4406a4d41d5824c5bb8beb AS runtime
 LABEL org.opencontainers.image.title="Ventus Feedback API" \
       org.opencontainers.image.description="Self-hosted API for Ventus In-App Feedback" \
       org.opencontainers.image.licenses="BUSL-1.1"
