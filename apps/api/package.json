@@ -26,7 +26,7 @@
     "pg": "8.22.0"
   },
   "devDependencies": {
-    "@types/node": "22.19.19",
+    "@types/node": "26.1.2",
     "@types/pg": "8.20.3",
     "@ventus/feedback-browser": "0.1.0"
   },
