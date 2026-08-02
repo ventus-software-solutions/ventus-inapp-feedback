@@ -708,7 +708,10 @@ export function FeedbackLab() {
         </section>
       ) : null}
 
-      <section className="panel" aria-labelledby="widget-dogfood-title">
+      <section
+        className="panel widget-panel"
+        aria-labelledby="widget-dogfood-title"
+      >
         <div className="panel-heading">
           <div>
             <p className="step">
