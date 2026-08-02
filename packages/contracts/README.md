@@ -1,5 +1,9 @@
 # @ventus-software-solutions/feedback-contracts
 
+```bash
+npm install @ventus-software-solutions/feedback-contracts@beta
+```
+
 Shared domain types, validation helpers, workflow state machine, and the versioned
 OpenAPI contract for Ventus In-App Feedback.
 

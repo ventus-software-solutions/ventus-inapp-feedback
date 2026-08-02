@@ -1,5 +1,9 @@
 # @ventus-software-solutions/feedback-api-client
 
+```bash
+npm install @ventus-software-solutions/feedback-api-client@beta
+```
+
 Typed, framework-neutral client for the `/v1` API. It covers submission, search,
 metadata updates, comments, lease claims, resolution, verification closure,
 reopening, rejection, evidence, and event history. Versioned mutations send an

@@ -176,6 +176,10 @@ its normal permission to read and modify the consuming application's repository.
 
 The framework-neutral Web Component is the quickest integration:
 
+```bash
+npm install @ventus-software-solutions/feedback-widget@beta
+```
+
 ```ts
 import { defineVentusFeedbackWidget } from "@ventus-software-solutions/feedback-widget";
 
@@ -217,7 +221,7 @@ keeping the HTTP API as the canonical business interface.
 ```bash
 export VENTUS_FEEDBACK_API_URL=http://localhost:8080/v1
 export VENTUS_FEEDBACK_API_TOKEN=replace-with-an-agent-token
-npx @ventus-software-solutions/feedback-mcp
+npx @ventus-software-solutions/feedback-mcp@beta
 ```
 
 The token should normally have `feedback:read`, `feedback:triage`,

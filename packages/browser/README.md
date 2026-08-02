@@ -1,5 +1,9 @@
 # @ventus-software-solutions/feedback-browser
 
+```bash
+npm install @ventus-software-solutions/feedback-browser@beta
+```
+
 Framework-neutral, SSR-safe browser diagnostics for Ventus In-App Feedback.
 
 This package is under active development. Its public API is not stable before `1.0.0`.

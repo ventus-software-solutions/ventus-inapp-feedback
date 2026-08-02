@@ -1,5 +1,9 @@
 # @ventus-software-solutions/feedback-react
 
+```bash
+npm install @ventus-software-solutions/feedback-react@beta
+```
+
 A thin, SSR-safe React wrapper around `@ventus-software-solutions/feedback-widget`. React is a peer
 dependency and the wrapper does not duplicate widget behavior.
 

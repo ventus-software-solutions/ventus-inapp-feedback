@@ -1,5 +1,9 @@
 # @ventus-software-solutions/feedback-widget
 
+```bash
+npm install @ventus-software-solutions/feedback-widget@beta
+```
+
 Framework-neutral in-app feedback UI implemented as a standards-based custom
 element. The package is pre-1.0 and its API may change.
 
