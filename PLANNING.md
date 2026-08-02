@@ -47,10 +47,10 @@ an actual prerelease survives the in-repo demo acceptance period.
 
 ```text
 Application
-  -> @ventus/feedback-browser
-  -> @ventus/feedback-widget
-       -> @ventus/feedback-browser
-  -> @ventus/feedback-react (optional wrapper)
+  -> @ventus-software-solutions/feedback-browser
+  -> @ventus-software-solutions/feedback-widget
+       -> @ventus-software-solutions/feedback-browser
+  -> @ventus-software-solutions/feedback-react (optional wrapper)
 
 Browser packages
   -> Ventus HTTP API
@@ -91,13 +91,14 @@ deploy/
 docs/
 ```
 
-Proposed package names are provisional until the npm organization scope is confirmed:
+The confirmed public npm package names are:
 
-- `@ventus/feedback-browser`
-- `@ventus/feedback-widget`
-- `@ventus/feedback-react`
-- `@ventus/feedback-api-client`
-- `@ventus/feedback-mcp`
+- `@ventus-software-solutions/feedback-contracts`
+- `@ventus-software-solutions/feedback-browser`
+- `@ventus-software-solutions/feedback-widget`
+- `@ventus-software-solutions/feedback-react`
+- `@ventus-software-solutions/feedback-api-client`
+- `@ventus-software-solutions/feedback-mcp`
 
 # Phase 0: Product, legal, and repository decisions
 
@@ -106,8 +107,8 @@ These decisions block a responsible public release.
 ## 0.1 Product decisions
 
 - [ ] Confirm the public product name: `Ventus In-App Feedback` or a shorter standalone name.
-- [ ] Confirm the npm organization scope and verify that it is controlled by Ventus Software Solutions GmbH.
-- [ ] Confirm the public source repository organization and final repository URL.
+- [x] Confirm the `@ventus-software-solutions` npm organization scope.
+- [x] Confirm the public source repository organization and final repository URL.
 - [ ] Decide whether the first release includes only the SDK or SDK plus backend.
 - [ ] Define supported browsers and the minimum browser versions.
 - [ ] Define supported Node.js versions for build tooling and backend services.
@@ -881,7 +882,7 @@ The MCP server is an adapter over the HTTP API. It must not bypass API authoriza
 
 ## 9.2 npm publishing
 
-- [ ] Reserve or create the npm organization scope.
+- [x] Reserve or create the npm organization scope.
 - [ ] Publish initial packages manually or as staged releases to establish ownership.
 - [ ] Configure npm trusted publishing with OIDC.
 - [ ] Publish from protected release tags or approved release environments.
@@ -1103,10 +1104,10 @@ releases through thin host adapters, with reversible rollout steps.
 Work through these before beginning Phase 1 implementation:
 
 1. [x] Choose the license split for integration packages and the backend.
-2. [ ] Confirm the npm scope and public repository location.
+2. [x] Confirm the npm scope and public repository location.
 3. [ ] Confirm the first public milestone is the safe browser SDK (`0.1`).
 4. [ ] Approve the default data collected by the SDK.
-5. [ ] Approve the proposed monorepo and package names.
+5. [x] Approve the proposed monorepo and package names.
 6. [x] Select the package manager and supported Node.js versions.
 7. [x] Replace placeholder component license files.
 8. [x] Create the first architectural decision record for the canonical HTTP API plus MCP-adapter approach.

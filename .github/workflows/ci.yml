@@ -32,9 +32,9 @@ jobs:
           node-version: 22.19.0
           cache: npm
       - run: npm ci --ignore-scripts
-      - run: npm run build --workspace @ventus/feedback-contracts
-      - run: npm run build --workspace @ventus/feedback-api-client
-      - run: npm run build --workspace @ventus/feedback-api
+      - run: npm run build --workspace @ventus-software-solutions/feedback-contracts
+      - run: npm run build --workspace @ventus-software-solutions/feedback-api-client
+      - run: npm run build --workspace @ventus-software-solutions/feedback-api
       - run: docker compose up --build --wait
       - name: Smoke API
         env:

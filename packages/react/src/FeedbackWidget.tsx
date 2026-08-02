@@ -2,7 +2,7 @@ import type {
   FeedbackCaptureCore,
   FeedbackCaptureCoreOptions,
   FeedbackTransport,
-} from "@ventus/feedback-browser";
+} from "@ventus-software-solutions/feedback-browser";
 import {
   defineVentusFeedbackWidget,
   type VentusFeedbackCloseDetail,
@@ -13,7 +13,7 @@ import {
   type VentusFeedbackWidget,
   type VentusFeedbackWidgetTheme,
   type VentusFeedbackCaptureMode,
-} from "@ventus/feedback-widget";
+} from "@ventus-software-solutions/feedback-widget";
 import {
   createElement,
   forwardRef,

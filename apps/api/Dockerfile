@@ -1,10 +1,10 @@
 FROM node:22.19.0-bookworm-slim@sha256:4a4884e8a44826194dff92ba316264f392056cbe243dcc9fd3551e71cea02b90 AS build
 WORKDIR /app
 COPY . .
-RUN npm ci --ignore-scripts --workspace @ventus/feedback-contracts --workspace @ventus/feedback-browser --workspace @ventus/feedback-api --include-workspace-root
-RUN npm run build --workspace @ventus/feedback-contracts \
- && npm run build --workspace @ventus/feedback-browser \
- && npm run build --workspace @ventus/feedback-api
+RUN npm ci --ignore-scripts --workspace @ventus-software-solutions/feedback-contracts --workspace @ventus-software-solutions/feedback-browser --workspace @ventus-software-solutions/feedback-api --include-workspace-root
+RUN npm run build --workspace @ventus-software-solutions/feedback-contracts \
+ && npm run build --workspace @ventus-software-solutions/feedback-browser \
+ && npm run build --workspace @ventus-software-solutions/feedback-api
 
 FROM node:22.19.0-bookworm-slim@sha256:4a4884e8a44826194dff92ba316264f392056cbe243dcc9fd3551e71cea02b90 AS runtime
 LABEL org.opencontainers.image.title="Ventus Feedback API" \

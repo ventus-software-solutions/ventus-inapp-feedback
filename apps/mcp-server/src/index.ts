@@ -6,7 +6,7 @@ import {
   type FeedbackPriority,
   type FeedbackResolutionReason,
   type FeedbackStatus,
-} from "@ventus/feedback-api-client";
+} from "@ventus-software-solutions/feedback-api-client";
 import * as z from "zod/v4";
 
 export type FeedbackMcpApi = Pick<

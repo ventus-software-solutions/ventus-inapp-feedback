@@ -1,5 +1,5 @@
 {
-  "name": "@ventus/feedback-browser",
+  "name": "@ventus-software-solutions/feedback-browser",
   "version": "0.1.0",
   "description": "Framework-neutral browser capture core for Ventus In-App Feedback.",
   "license": "MIT",

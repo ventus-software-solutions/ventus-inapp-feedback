@@ -1,4 +1,4 @@
-# @ventus/feedback-contracts
+# @ventus-software-solutions/feedback-contracts
 
 Shared domain types, validation helpers, workflow state machine, and the versioned
 OpenAPI contract for Ventus In-App Feedback.

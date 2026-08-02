@@ -1,6 +1,6 @@
 import { createRef } from "react";
 import { FeedbackWidget, type VentusFeedbackWidget } from "../dist/index.js";
-import type { FeedbackTransport } from "@ventus/feedback-browser";
+import type { FeedbackTransport } from "@ventus-software-solutions/feedback-browser";
 
 type AppContext = { route: string };
 const ref = createRef<VentusFeedbackWidget>();

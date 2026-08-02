@@ -131,9 +131,9 @@ Give an agent with access to your application repository the following prompt:
 >
 > First inspect the frontend framework, package manager, existing environment
 > configuration, test setup, and any repository instructions. Use
-> `@ventus/feedback-react` for React, the framework-neutral
-> `@ventus/feedback-widget` Web Component for other UI frameworks, or
-> `@ventus/feedback-browser` only when this application needs a custom feedback
+> `@ventus-software-solutions/feedback-react` for React, the framework-neutral
+> `@ventus-software-solutions/feedback-widget` Web Component for other UI frameworks, or
+> `@ventus-software-solutions/feedback-browser` only when this application needs a custom feedback
 > interface.
 >
 > Add an accessible feedback trigger that lets users submit a bug, general
@@ -175,7 +175,7 @@ its normal permission to read and modify the consuming application's repository.
 The framework-neutral Web Component is the quickest integration:
 
 ```ts
-import { defineVentusFeedbackWidget } from "@ventus/feedback-widget";
+import { defineVentusFeedbackWidget } from "@ventus-software-solutions/feedback-widget";
 
 defineVentusFeedbackWidget();
 ```
@@ -196,7 +196,7 @@ a feature. It can include a screenshot or file and lets the reporter control
 which optional diagnostics are submitted. A thin React wrapper is available for
 React applications.
 
-Use `@ventus/feedback-browser` directly when you want a custom interface or a
+Use `@ventus-software-solutions/feedback-browser` directly when you want a custom interface or a
 headless capture flow. It provides the same redaction, diagnostic collection,
 payload validation, and transport primitives without imposing a UI framework.
 
@@ -215,7 +215,7 @@ keeping the HTTP API as the canonical business interface.
 ```bash
 export VENTUS_FEEDBACK_API_URL=http://localhost:8080/v1
 export VENTUS_FEEDBACK_API_TOKEN=replace-with-an-agent-token
-npx @ventus/feedback-mcp
+npx @ventus-software-solutions/feedback-mcp
 ```
 
 The token should normally have `feedback:read`, `feedback:triage`,

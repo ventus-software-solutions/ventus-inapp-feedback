@@ -1,4 +1,4 @@
-# @ventus/feedback-api-client
+# @ventus-software-solutions/feedback-api-client
 
 Typed, framework-neutral client for the `/v1` API. It covers submission, search,
 metadata updates, comments, lease claims, resolution, verification closure,

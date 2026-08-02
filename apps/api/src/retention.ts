@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
 import { Pool, type PoolClient } from "pg";
-import type { Feedback } from "@ventus/feedback-contracts";
+import type { Feedback } from "@ventus-software-solutions/feedback-contracts";
 import { loadApiConfiguration } from "./config.js";
 import { S3ObjectStorage, type ObjectStorage } from "./objectStorage.js";
 

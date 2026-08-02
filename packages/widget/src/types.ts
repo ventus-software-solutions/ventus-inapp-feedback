@@ -5,7 +5,7 @@ import type {
   FeedbackReceipt,
   FeedbackSubmission,
   FeedbackTransport,
-} from "@ventus/feedback-browser";
+} from "@ventus-software-solutions/feedback-browser";
 
 export type VentusFeedbackWidgetTheme = "light" | "dark" | "auto";
 export type VentusFeedbackCaptureMode = "viewport" | "display" | "none";

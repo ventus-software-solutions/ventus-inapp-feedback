@@ -1,7 +1,7 @@
 import type {
   FeedbackActorType,
   FeedbackScope,
-} from "@ventus/feedback-contracts";
+} from "@ventus-software-solutions/feedback-contracts";
 
 export type ProjectKeyConfiguration = {
   workspaceId: string;

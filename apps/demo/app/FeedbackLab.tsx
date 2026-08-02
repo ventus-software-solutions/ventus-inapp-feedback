@@ -7,8 +7,8 @@ import {
   type FeedbackCapturePayload,
   type FeedbackReceipt,
   type FeedbackTransport,
-} from "@ventus/feedback-browser";
-import { FeedbackWidget } from "@ventus/feedback-react";
+} from "@ventus-software-solutions/feedback-browser";
+import { FeedbackWidget } from "@ventus-software-solutions/feedback-react";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { mockFeedbackTransport } from "./mockTransport";
 
@@ -307,10 +307,10 @@ export function FeedbackLab() {
         </div>
         <div className="signal-card" aria-label="Current package boundary">
           <span>Consumer</span>
-          <strong>@ventus/feedback-demo</strong>
+          <strong>@ventus-software-solutions/feedback-demo</strong>
           <i aria-hidden="true">↓</i>
           <span>Public package</span>
-          <strong>@ventus/feedback-browser</strong>
+          <strong>@ventus-software-solutions/feedback-browser</strong>
           <i aria-hidden="true">↓</i>
           <span>{isLiveApiMode ? "Connected API" : "Transport"}</span>
           <strong>

@@ -3,21 +3,21 @@ import { existsSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 
 const publishOrder = [
-  "@ventus/feedback-contracts",
-  "@ventus/feedback-api-client",
-  "@ventus/feedback-browser",
-  "@ventus/feedback-widget",
-  "@ventus/feedback-react",
-  "@ventus/feedback-mcp",
+  "@ventus-software-solutions/feedback-contracts",
+  "@ventus-software-solutions/feedback-api-client",
+  "@ventus-software-solutions/feedback-browser",
+  "@ventus-software-solutions/feedback-widget",
+  "@ventus-software-solutions/feedback-react",
+  "@ventus-software-solutions/feedback-mcp",
 ];
 
 const workspaceByPackage = {
-  "@ventus/feedback-contracts": "packages/contracts",
-  "@ventus/feedback-api-client": "packages/api-client",
-  "@ventus/feedback-browser": "packages/browser",
-  "@ventus/feedback-widget": "packages/widget",
-  "@ventus/feedback-react": "packages/react",
-  "@ventus/feedback-mcp": "apps/mcp-server",
+  "@ventus-software-solutions/feedback-contracts": "packages/contracts",
+  "@ventus-software-solutions/feedback-api-client": "packages/api-client",
+  "@ventus-software-solutions/feedback-browser": "packages/browser",
+  "@ventus-software-solutions/feedback-widget": "packages/widget",
+  "@ventus-software-solutions/feedback-react": "packages/react",
+  "@ventus-software-solutions/feedback-mcp": "apps/mcp-server",
 };
 
 const argumentsByName = new Map();

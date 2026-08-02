@@ -1,4 +1,4 @@
-# @ventus/feedback-mcp
+# @ventus-software-solutions/feedback-mcp
 
 Model Context Protocol adapter for the Ventus Feedback HTTP API. The server uses
 the public typed API client and never reads the database directly.
@@ -8,7 +8,7 @@ Configure a least-privilege service or agent token and start the stdio server:
 ```bash
 export VENTUS_FEEDBACK_API_URL=http://localhost:8080/v1
 export VENTUS_FEEDBACK_API_TOKEN=replace-with-an-agent-token
-npx @ventus/feedback-mcp
+npx @ventus-software-solutions/feedback-mcp
 ```
 
 The tool surface covers search/get, triage metadata, expiring claims, comments,

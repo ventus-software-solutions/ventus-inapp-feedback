@@ -1,4 +1,4 @@
-# @ventus/feedback-browser
+# @ventus-software-solutions/feedback-browser
 
 Framework-neutral, SSR-safe browser diagnostics for Ventus In-App Feedback.
 
@@ -13,7 +13,7 @@ Captured text is redacted for common sensitive keys, bearer tokens, JWT-like val
 ## Usage
 
 ```ts
-import { createFeedbackCaptureCore } from "@ventus/feedback-browser";
+import { createFeedbackCaptureCore } from "@ventus-software-solutions/feedback-browser";
 
 const capture = createFeedbackCaptureCore({
   diagnostics: {
@@ -97,7 +97,7 @@ when attachments are present.
 import {
   createFeedbackSubmission,
   createHttpFeedbackTransport,
-} from "@ventus/feedback-browser";
+} from "@ventus-software-solutions/feedback-browser";
 
 const transport = createHttpFeedbackTransport({
   endpoint: "/v1/feedback",

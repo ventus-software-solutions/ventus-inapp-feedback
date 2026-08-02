@@ -20,7 +20,7 @@ import type {
   ReopenFeedbackRequest,
   ResolveFeedbackRequest,
   UpdateFeedbackRequest,
-} from "@ventus/feedback-contracts";
+} from "@ventus-software-solutions/feedback-contracts";
 
 export type RepositoryContext = {
   workspaceId: string;

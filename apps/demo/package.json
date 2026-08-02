@@ -1,5 +1,5 @@
 {
-  "name": "@ventus/feedback-demo",
+  "name": "@ventus-software-solutions/feedback-demo",
   "version": "0.1.0",
   "private": true,
   "description": "In-repo dogfooding playground for Ventus In-App Feedback.",
@@ -16,8 +16,8 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@ventus/feedback-browser": "0.1.0",
-    "@ventus/feedback-react": "0.1.0",
+    "@ventus-software-solutions/feedback-browser": "0.1.0",
+    "@ventus-software-solutions/feedback-react": "0.1.0",
     "html2canvas-pro": "^2.3.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"

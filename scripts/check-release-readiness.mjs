@@ -40,6 +40,26 @@ const mitPackagePaths = [
   "packages/react/package.json",
   "apps/mcp-server/package.json",
 ];
+const expectedPublicPackageNames = new Map([
+  [
+    "packages/contracts/package.json",
+    "@ventus-software-solutions/feedback-contracts",
+  ],
+  [
+    "packages/api-client/package.json",
+    "@ventus-software-solutions/feedback-api-client",
+  ],
+  [
+    "packages/browser/package.json",
+    "@ventus-software-solutions/feedback-browser",
+  ],
+  [
+    "packages/widget/package.json",
+    "@ventus-software-solutions/feedback-widget",
+  ],
+  ["packages/react/package.json", "@ventus-software-solutions/feedback-react"],
+  ["apps/mcp-server/package.json", "@ventus-software-solutions/feedback-mcp"],
+]);
 
 for (const packagePath of mitPackagePaths) {
   const manifest = await readJson(packagePath);
@@ -55,6 +75,11 @@ for (const packagePath of mitPackagePaths) {
   }
   if (!manifest.repository || !manifest.homepage || !manifest.bugs) {
     failures.push(`${packagePath} is missing public repository metadata.`);
+  }
+  if (manifest.name !== expectedPublicPackageNames.get(packagePath)) {
+    failures.push(
+      `${packagePath} must use the @ventus-software-solutions npm scope.`,
+    );
   }
 }
 

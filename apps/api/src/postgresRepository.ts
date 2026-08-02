@@ -26,7 +26,7 @@ import {
   type ReopenFeedbackRequest,
   type ResolveFeedbackRequest,
   type UpdateFeedbackRequest,
-} from "@ventus/feedback-contracts";
+} from "@ventus-software-solutions/feedback-contracts";
 import {
   RepositoryError,
   type FeedbackRepository,

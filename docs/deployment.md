@@ -64,7 +64,7 @@ Retention is deliberately disabled until an operator selects
 `VENTUS_RETENTION_DRY_RUN=false` is explicitly configured:
 
 ```bash
-npm run retention --workspace @ventus/feedback-api
+npm run retention --workspace @ventus-software-solutions/feedback-api
 ```
 
 Only terminal `closed` and `rejected` records older than the policy are eligible.

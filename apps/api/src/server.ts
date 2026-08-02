@@ -20,7 +20,7 @@ import {
   type RenewFeedbackClaimRequest,
   type ReopenFeedbackRequest,
   type ResolveFeedbackRequest,
-} from "@ventus/feedback-contracts";
+} from "@ventus-software-solutions/feedback-contracts";
 import { hasScope, resolveConfiguredAuth, type AuthContext } from "./auth.js";
 import type { ApiConfiguration } from "./config.js";
 import {

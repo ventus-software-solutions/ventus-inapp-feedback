@@ -3,7 +3,7 @@ import {
   VentusFeedbackWidget,
   type VentusFeedbackSuccessDetail,
 } from "../dist/index.js";
-import type { FeedbackTransport } from "@ventus/feedback-browser";
+import type { FeedbackTransport } from "@ventus-software-solutions/feedback-browser";
 
 defineVentusFeedbackWidget();
 const widget = document.createElement("ventus-feedback");

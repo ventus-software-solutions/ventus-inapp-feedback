@@ -9,7 +9,7 @@ import {
   type FeedbackCategory,
   type FeedbackReceipt,
   type FeedbackTransport,
-} from "@ventus/feedback-browser";
+} from "@ventus-software-solutions/feedback-browser";
 import { widgetStyles } from "./styles.js";
 import type {
   VentusFeedbackCaptureMode,

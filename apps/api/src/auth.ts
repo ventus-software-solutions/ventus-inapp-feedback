@@ -1,5 +1,8 @@
 import { createHash, timingSafeEqual } from "node:crypto";
-import type { FeedbackActor, FeedbackScope } from "@ventus/feedback-contracts";
+import type {
+  FeedbackActor,
+  FeedbackScope,
+} from "@ventus-software-solutions/feedback-contracts";
 import type { ApiConfiguration } from "./config.js";
 
 export type AuthContext = {

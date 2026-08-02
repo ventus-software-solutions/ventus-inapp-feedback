@@ -1,7 +1,7 @@
 import {
   validateFeedbackCapturePayload,
   type FeedbackTransport,
-} from "@ventus/feedback-browser";
+} from "@ventus-software-solutions/feedback-browser";
 
 export type MockSubmission = {
   id: string;

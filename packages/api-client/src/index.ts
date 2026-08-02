@@ -21,7 +21,7 @@ import type {
   ResolveFeedbackRequest,
   ServiceVersionResponse,
   UpdateFeedbackRequest,
-} from "@ventus/feedback-contracts";
+} from "@ventus-software-solutions/feedback-contracts";
 
 export type FeedbackApiClientOptions = {
   baseUrl: string;
@@ -331,4 +331,4 @@ export class FeedbackApiClient {
   }
 }
 
-export type * from "@ventus/feedback-contracts";
+export type * from "@ventus-software-solutions/feedback-contracts";

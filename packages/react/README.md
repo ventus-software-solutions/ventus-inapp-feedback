@@ -1,10 +1,10 @@
-# @ventus/feedback-react
+# @ventus-software-solutions/feedback-react
 
-A thin, SSR-safe React wrapper around `@ventus/feedback-widget`. React is a peer
+A thin, SSR-safe React wrapper around `@ventus-software-solutions/feedback-widget`. React is a peer
 dependency and the wrapper does not duplicate widget behavior.
 
 ```tsx
-import { FeedbackWidget } from "@ventus/feedback-react";
+import { FeedbackWidget } from "@ventus-software-solutions/feedback-react";
 
 export function AppFeedback() {
   return (

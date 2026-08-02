@@ -1,10 +1,10 @@
-# @ventus/feedback-widget
+# @ventus-software-solutions/feedback-widget
 
 Framework-neutral in-app feedback UI implemented as a standards-based custom
 element. The package is pre-1.0 and its API may change.
 
 ```ts
-import { defineVentusFeedbackWidget } from "@ventus/feedback-widget";
+import { defineVentusFeedbackWidget } from "@ventus-software-solutions/feedback-widget";
 
 defineVentusFeedbackWidget();
 ```

@@ -8,7 +8,7 @@ import {
   createFeedbackCaptureCore,
   createFeedbackSubmission,
   createHttpFeedbackTransport,
-} from "@ventus/feedback-browser";
+} from "@ventus-software-solutions/feedback-browser";
 
 const configuration = loadApiConfiguration({
   VENTUS_APPLICATION_VERSION: "test-build",

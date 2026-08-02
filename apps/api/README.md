@@ -8,11 +8,11 @@ for claims and optimistic updates, transactional idempotency records for agent
 writes, and append-only audit events.
 
 ```bash
-npm run build --workspace @ventus/feedback-api
-npm run migrate --workspace @ventus/feedback-api
-npm run seed --workspace @ventus/feedback-api
-npm run retention --workspace @ventus/feedback-api
-npm run start --workspace @ventus/feedback-api
+npm run build --workspace @ventus-software-solutions/feedback-api
+npm run migrate --workspace @ventus-software-solutions/feedback-api
+npm run seed --workspace @ventus-software-solutions/feedback-api
+npm run retention --workspace @ventus-software-solutions/feedback-api
+npm run start --workspace @ventus-software-solutions/feedback-api
 ```
 
 For a local stack:

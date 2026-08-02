@@ -6,7 +6,8 @@ images, not npm.
 
 ## One-time npm setup
 
-1. Create or confirm the free public npm organization for the `@ventus` scope.
+1. Confirm access to the
+   [`@ventus-software-solutions` npm organization](https://www.npmjs.com/org/ventus-software-solutions).
 2. Add the maintainers who are allowed to publish the packages.
 3. Require two-factor authentication for the organization and packages.
 4. Bootstrap each package with a controlled prerelease if npm requires the
@@ -27,12 +28,12 @@ The workflow uses OpenID Connect and must not receive a long-lived `NPM_TOKEN`.
 
 All public packages use one version and are published in dependency order:
 
-1. `@ventus/feedback-contracts`
-2. `@ventus/feedback-api-client`
-3. `@ventus/feedback-browser`
-4. `@ventus/feedback-widget`
-5. `@ventus/feedback-react`
-6. `@ventus/feedback-mcp`
+1. `@ventus-software-solutions/feedback-contracts`
+2. `@ventus-software-solutions/feedback-api-client`
+3. `@ventus-software-solutions/feedback-browser`
+4. `@ventus-software-solutions/feedback-widget`
+5. `@ventus-software-solutions/feedback-react`
+6. `@ventus-software-solutions/feedback-mcp`
 
 Internal package dependencies must use the exact release version. The release
 script checks this before publishing and safely skips an already-published
