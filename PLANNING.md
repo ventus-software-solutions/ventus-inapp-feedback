@@ -472,11 +472,17 @@ The demo application is the first real consumer. It must exercise packages throu
 - [ ] Demonstrate submit, search, claim, comment, resolve, verify, and close end to end.
 - [ ] Retain failure-scenario routes as permanent regression fixtures.
 
-## 3.9 Public GitHub Pages showcase
+## 3.9 Public showcase and hosting
 
-GitHub Pages should present an interactive, static showcase of the open-source
-integration packages. It is not a hosted Ventus backend and must never imply
-that reports are persisted, processed by a real agent, or sent to Ventus.
+The preferred target is the existing Cloudflare-compatible Sites/Pages path on
+a Ventus subdomain such as `inapp-feedback.ventus.works`. It matches the current
+Vinext output, supports a company-owned URL, and can remain a static simulation.
+GitHub stays the source and CI system. GitHub Pages is the fallback for a purely
+repository-hosted artifact; Vercel is not the default because a GmbH deployment
+requires a commercial plan and the repository has no Vercel-specific advantage.
+
+The public showcase is not a hosted Ventus backend and must never imply that
+reports are persisted, processed by a real agent, or sent to Ventus.
 
 - [ ] Create a dedicated static showcase entry point rather than forcing the SSR-capable local dogfooding app into a Pages build.
 - [ ] Reuse the published browser SDK, Web Component, React wrapper, brand attribution, and visual language through public package exports.
@@ -485,24 +491,23 @@ that reports are persisted, processed by a real agent, or sent to Ventus.
 - [ ] Let visitors open the widget, choose bug/feedback/idea, toggle diagnostic groups, capture a locally generated masked screenshot, and inspect the sanitized structured payload.
 - [ ] Add a simulated agent timeline showing search, claim, comment, evidence, resolve, verify, close, and reopen without presenting simulated actions as real automation.
 - [ ] Include concise links to installation, the one-command local stack, agent/MCP documentation, licensing, and the source repository.
-- [ ] Support the repository subpath `/ventus-inapp-feedback/` for assets, routing, canonical URLs, and social metadata.
-- [ ] Add a static build command that emits one Pages artifact with `index.html` at its root and no server-only routes.
+- [ ] Use a Ventus-owned canonical URL and include visible links back to `ventus.works`, installation docs, licensing, and the source repository.
+- [ ] Add a public-showcase build mode with no server-only data path and no dependency on a running feedback API.
 - [ ] Add a pull-request build check before enabling deployment.
-- [ ] Add a dedicated GitHub Actions Pages workflow using `configure-pages`, `upload-pages-artifact`, and `deploy-pages`, with actions pinned to reviewed commit SHAs.
-- [ ] Restrict deployment to `main` through the `github-pages` environment and grant only `contents: read`, `pages: write`, and `id-token: write` as required.
+- [ ] Add a dedicated deployment workflow for the selected Sites/Pages target, with actions pinned to reviewed commit SHAs and deployment restricted to `main`.
 - [ ] Add automated checks proving the published bundle contains no API endpoint, project key, agent token, real report data, or network submission path.
 - [ ] Complete keyboard, mobile, WCAG 2.2 AA, reduced-motion, screenshot-masking, and privacy-copy review before the first public deployment.
-- [ ] Enable GitHub Pages from GitHub Actions only after the static artifact and privacy gates pass.
-- [ ] Initially publish at `https://ventus-software-solutions.github.io/ventus-inapp-feedback/`; evaluate a Ventus custom domain separately.
+- [ ] Configure the Ventus custom domain only after the showcase artifact and privacy gates pass.
+- [ ] Keep a documented GitHub Pages fallback that supports `/ventus-inapp-feedback/` if the preferred target becomes unavailable.
 
-### GitHub Pages showcase acceptance
+### Public showcase acceptance
 
 - [ ] A visitor can understand the reporter-to-agent workflow without documentation or a running backend.
-- [ ] Every interaction works from the repository subpath on a fresh browser session.
+- [ ] Every interaction works from the canonical public URL on a fresh browser session.
 - [ ] Refreshing removes every synthetic report and local artifact.
 - [ ] Browser network inspection shows no feedback submission or user-data collection.
 - [ ] The page clearly distinguishes the interactive simulation from the self-hosted product.
-- [ ] The Pages build and deployment are reproducible from the default branch.
+- [ ] The showcase build and deployment are reproducible from the default branch.
 
 ## Phase 3 exit criteria
 
@@ -1222,7 +1227,7 @@ Record accepted decisions here so implementation work does not repeatedly reopen
 | 2026-08-02 | Use an in-repo demo as the first dogfooding consumer                  | Confirmed; foundation implemented | Validates public package boundaries and failure scenarios without risking a customer application or coupling early APIs to Vergleichshai.                                                                                                                                                   |
 | 2026-08-02 | Use npm workspaces for the initial monorepo foundation                | Confirmed; implemented            | Reuses the demo scaffold's npm workflow and keeps the first slice small; package-manager migration remains possible before public release.                                                                                                                                                  |
 | 2026-08-02 | Use Vergleichshai as the first external dogfooding consumer           | Proposed                          | It provides real workflows after the package has passed controlled in-repo use.                                                                                                                                                                                                             |
-| 2026-08-02 | Use GitHub Pages for a static public showcase                         | Proposed                          | Demonstrates the widget, structured payload, and simulated agent workflow without operating or implying a hosted backend, collecting reports, or exposing credentials.                                                                                                                      |
+| 2026-08-02 | Use Cloudflare-backed Sites/Pages for the static public showcase      | Proposed                          | Matches the existing Vinext/Worker-compatible build, supports a Ventus-owned domain, and demonstrates the widget and simulated agent workflow without operating or implying a hosted backend. GitHub Pages remains the fallback.                                                            |
 | TBD        | Migrate Vergleichshai capture core before replacing its UI            | Proposed                          | Provides external package validation with the smallest user-visible and operational risk.                                                                                                                                                                                                   |
 | TBD        | Select the first Vergleichshai consumer after demo stabilization      | Deferred                          | Admin is a likely candidate, but the choice should reflect package and application state at migration time.                                                                                                                                                                                 |
 

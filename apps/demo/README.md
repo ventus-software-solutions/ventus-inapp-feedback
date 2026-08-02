@@ -37,3 +37,6 @@ agent or service token in browser-visible environment variables.
 For non-Docker UI development, copy `.env.example` in this directory to
 `.env.local` and run `npm run demo:dogfood`. Delete `.env.local` to return to the
 disposable mock transport.
+
+Built and maintained by
+[Ventus Software Solutions GmbH](https://ventus.works/?utm_source=github&utm_medium=referral&utm_campaign=feedback-demo).

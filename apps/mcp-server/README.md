@@ -41,3 +41,6 @@ Never place the API token in an MCP configuration committed to source control.
 All mutations require the current version and idempotency key. A transport retry
 reuses both. On a genuine conflict, fetch the record again, reconcile the new
 state, and create a new key only if a new mutation is still intended.
+
+Built and maintained by
+[Ventus Software Solutions GmbH](https://ventus.works/?utm_source=github&utm_medium=referral&utm_campaign=feedback-mcp).

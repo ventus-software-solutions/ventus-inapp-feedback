@@ -1,5 +1,8 @@
 # Ventus In-App Feedback
 
+Built and maintained by
+[Ventus Software Solutions GmbH](https://ventus.works/?utm_source=github&utm_medium=referral&utm_campaign=ventus-inapp-feedback).
+
 Developer-friendly in-app feedback capture and an agent-ready workflow for
 turning user reports into shipped improvements. Users can submit bug reports,
 general feedback, and feature ideas without leaving the application. Ventus
@@ -318,7 +321,8 @@ npm run verify
 non-mutating Prettier check, package-tarball inspection, and the dependency
 audit. Use `npm run format` to apply the repository style before rerunning it.
 
-Start the complete local backend on ports 8080, 15432, 19000, and 9001:
+Start the complete local demo and backend on ports 3100, 8180, 15433, 19001,
+and 19002:
 
 ```bash
 docker compose up --build
@@ -353,3 +357,11 @@ See [`LICENSE`](LICENSE) for the component map and the controlling license
 files. The BSL-licensed API is source-available, not open source before its
 Change Date. The licensing parameters and commercial agreement should receive
 legal review before the first public release.
+
+## About Ventus
+
+Ventus In-App Feedback is a product of
+[Ventus Software Solutions GmbH](https://ventus.works/?utm_source=github&utm_medium=referral&utm_campaign=ventus-inapp-feedback-about).
+Visit [ventus.works](https://ventus.works/?utm_source=github&utm_medium=referral&utm_campaign=ventus-inapp-feedback-footer)
+or contact [hello@ventus.works](mailto:hello@ventus.works) for commercial
+licensing and company information.

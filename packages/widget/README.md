@@ -32,9 +32,10 @@ references are cleared after success or cancellation. Recoverable submission
 errors retain the current form.
 
 The form footer includes a compact, accessible "Powered by Ventus" attribution
-using the official Ventus Software Solutions mark. The link opens the company
-site in a new tab and includes product-level referral attribution without
-collecting feedback content or runtime telemetry.
+using the official
+[Ventus Software Solutions](https://ventus.works/?utm_source=github&utm_medium=referral&utm_campaign=feedback-widget)
+mark. The link opens the company site in a new tab and includes product-level
+referral attribution without collecting feedback content or runtime telemetry.
 
 Use `capture-mode="display"` for browser display-media capture or
 `capture-mode="none"` to hide the capture behavior in host code. Viewport capture

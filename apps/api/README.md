@@ -69,7 +69,7 @@ backup, reverse-proxy, upgrade, and production contracts.
 Run the full local smoke flow after `docker compose up --build`:
 
 ```bash
-VENTUS_SMOKE_API_URL=http://127.0.0.1:8080/v1 \
+VENTUS_SMOKE_API_URL=http://127.0.0.1:8180/v1 \
 VENTUS_SMOKE_PROJECT_KEY=demo-browser-key \
 VENTUS_SMOKE_AGENT_TOKEN=demo-service-token \
 VENTUS_SMOKE_VERIFIER_TOKEN=demo-service-token \
@@ -78,7 +78,7 @@ node scripts/smoke-api.mjs
 ```
 
 CI follows this with `scripts/smoke-retention.mjs`, using the exposed local
-PostgreSQL port 15432 and MinIO port 19000.
+PostgreSQL port 15433 and MinIO port 19001.
 
 The built-in rate limiter is process-local and suitable for a single API
 instance. Multi-replica deployments should enforce a shared limit at the edge or
@@ -93,3 +93,6 @@ feedback submissions per month for three consecutive months, as defined in
 `LICENSE`. Production use outside that grant requires a commercial license from
 Ventus Software Solutions GmbH. Each version changes to Apache-2.0 on its Change
 Date.
+
+Built and maintained by
+[Ventus Software Solutions GmbH](https://ventus.works/?utm_source=github&utm_medium=referral&utm_campaign=feedback-api).

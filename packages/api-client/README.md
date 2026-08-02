@@ -7,3 +7,6 @@ reopening, rejection, evidence, and event history. Versioned mutations send an
 `idempotencyKey` in the request options when the caller may retry after losing a
 response. Reuse a key only for the exact same request. Credentials can be static
 or resolved lazily.
+
+Built and maintained by
+[Ventus Software Solutions GmbH](https://ventus.works/?utm_source=github&utm_medium=referral&utm_campaign=feedback-api-client).

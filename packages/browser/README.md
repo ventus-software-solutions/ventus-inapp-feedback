@@ -132,3 +132,6 @@ nullable. All diagnostic groups except browser errors are disabled by default.
 Host context may contain personal or commercially sensitive data. Keep it small,
 omit it when it is not needed, and extend the redaction policy for domain-specific
 values before enabling capture in production.
+
+Built and maintained by
+[Ventus Software Solutions GmbH](https://ventus.works/?utm_source=github&utm_medium=referral&utm_campaign=feedback-browser).
