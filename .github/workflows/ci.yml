@@ -35,7 +35,6 @@ jobs:
       - run: npm run build --workspace @ventus-software-solutions/feedback-contracts
       - run: npm run build --workspace @ventus-software-solutions/feedback-api-client
       - run: npm run build --workspace @ventus-software-solutions/feedback-api
-      - run: npm run build --workspace @ventus-software-solutions/feedback-mcp
       - name: Install the dogfooding browser
         run: npx playwright install --with-deps chromium
       - run: docker compose up --build --wait
