@@ -31,11 +31,12 @@ automatic screenshot. Temporary form data, captures, object URLs, and attachment
 references are cleared after success or cancellation. Recoverable submission
 errors retain the current form.
 
-The form footer includes a compact, accessible "Powered by Ventus" attribution
-using the official
-[Ventus Software Solutions](https://ventus.works/?utm_source=github&utm_medium=referral&utm_campaign=feedback-widget)
-mark. The link opens the company site in a new tab and includes product-level
-referral attribution without collecting feedback content or runtime telemetry.
+The form footer includes the official two-line "Made by Ventus" badge from the
+Ventus branding system, using the visible project-specific subtitle
+`AI feedback software from Cologne`, self-contained canonical logo artwork, and
+UTM source attribution. It links to
+[Ventus Software Solutions](https://ventus.works?utm_source=ventus-inapp-feedback&utm_medium=referral&utm_campaign=badge)
+without collecting feedback content or runtime telemetry.
 
 Use `capture-mode="display"` for browser display-media capture or
 `capture-mode="none"` to hide the capture behavior in host code. Viewport capture

@@ -21,6 +21,10 @@ import type {
 } from "./types.js";
 
 const DEFAULT_TAG_NAME = "ventus-feedback";
+const VENTUS_BADGE_SUBTITLE = "AI feedback software from Cologne";
+const VENTUS_BADGE_LOGO = [
+  "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgNTAiIHdpZHRoPSI4MDAiIGhlaWdodD0iMjAwIj4KICA8IS0tIFZlbnR1cyBwcmltYXJ5IGxvZ28g4oCUIG5lb24gY3lhbiwgZm9yIERBUksgYmFja2dyb3VuZHMgKHdlYnNpdGUsIGRhcmsgVUkpIC0tPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDUsIDkpIj4KICAgIDxyZWN0IHg9IjEiIHk9IjEiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgZmlsbD0iIzBhMGEwYSIgc3Ryb2tlPSIjMDBmM2ZmIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgIDxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjEyIiBoZWlnaHQ9IjEyIiBmaWxsPSIjMDBmM2ZmIi8+CiAgPC9nPgogIDx0ZXh0IHg9IjUwIiB5PSIzMyIKICAgICAgICBmb250LWZhbWlseT0iJ09yYml0cm9uJywgJ1NlZ29lIFVJJywgQXJpYWwsIHNhbnMtc2VyaWYiCiAgICAgICAgZm9udC13ZWlnaHQ9IjcwMCIKICAgICAgICBmb250LXNpemU9IjI0IgogICAgICAgIGZpbGw9IiMwMGYzZmYiCiAgICAgICAgbGV0dGVyLXNwYWNpbmc9IjQiPlZFTlRVUzwvdGV4dD4KPC9zdmc+Cg==",
+].join("");
 
 const HTMLElementBase: typeof HTMLElement =
   typeof HTMLElement === "undefined"
@@ -547,16 +551,12 @@ export class VentusFeedbackWidget extends HTMLElementBase {
           <div class="preview" data-visible="false"><img alt="Attachment preview"><span data-attachment-name></span><button type="button" data-action="remove-attachment" data-label="remove">${t.remove}</button></div>
           <p class="status" role="status" aria-live="polite" hidden></p>
           <footer class="form-footer">
-            <a class="ventus-brand ventus-feedback-ignore" href="https://ventus.works/?utm_source=ventus-inapp-feedback&amp;utm_medium=referral&amp;utm_campaign=widget" target="_blank" rel="noopener" aria-label="Powered by Ventus Software Solutions">
-              <span>Powered by</span>
-              <svg viewBox="0 0 200 62" role="img" aria-hidden="true" focusable="false">
-                <rect width="200" height="62" rx="12" fill="#0a0a0a"></rect>
-                <g transform="translate(16 16)">
-                  <rect x="1" y="1" width="28" height="28" fill="#0a0a0a" stroke="#00f3ff" stroke-width="2"></rect>
-                  <rect x="9" y="9" width="12" height="12" fill="#00f3ff"></rect>
-                </g>
-                <text x="58" y="39" font-family="Orbitron, Segoe UI, Arial, sans-serif" font-weight="700" font-size="22" fill="#00f3ff" letter-spacing="3.5">VENTUS</text>
-              </svg>
+            <a class="ventus-badge ventus-feedback-ignore" href="https://ventus.works?utm_source=ventus-inapp-feedback&amp;utm_medium=referral&amp;utm_campaign=badge" target="_blank" rel="noopener" title="Made by Ventus" aria-label="Made by Ventus, ${VENTUS_BADGE_SUBTITLE}">
+              <span class="ventus-badge-row">
+                <span class="ventus-badge-text">Made by </span>
+                <img src="${VENTUS_BADGE_LOGO}" alt="Ventus" class="ventus-badge-icon">
+              </span>
+              <span class="ventus-badge-sub">${VENTUS_BADGE_SUBTITLE}</span>
             </a>
             <div class="actions"><button type="button" data-action="close" data-label="cancel">${t.cancel}</button><button class="primary" type="submit" data-label="send">${t.send}</button></div>
           </footer>

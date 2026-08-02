@@ -19,8 +19,8 @@ The repository is not ready for public publication. The hard release gates are
 the legal/license and npm/repository identity decisions in Phase 0, deeper browser
 and accessibility coverage, production malware-scanner wiring, retention/data
 rights, remote MCP authentication/transport if offered, operational telemetry,
-and release signing/provenance. Vergleichshai remains separate until an actual
-prerelease survives the in-repo demo acceptance period.
+and release signing/provenance. External integrations remain out of scope until
+an actual prerelease survives the in-repo demo acceptance period.
 
 ## Product goals
 
@@ -98,21 +98,6 @@ Proposed package names are provisional until the npm organization scope is confi
 - `@ventus/feedback-react`
 - `@ventus/feedback-api-client`
 - `@ventus/feedback-mcp`
-
-## Relationship to Vergleichshai
-
-Vergleichshai is the original production experiment and will become an external dogfooding consumer after the packages have first been exercised in this repository. For now, the repositories remain separate:
-
-- This repository owns the reusable product, public contracts, releases, and generic documentation.
-- Vergleichshai continues to own its customer-specific integration, styling, authentication wiring, cart context, and deployment decisions.
-- Reusable changes are deliberately ported into this repository; the repositories are not kept in sync by copying whole files.
-- The in-repo demo is the first integration consumer and must use only public package exports.
-- Once package parity is proven, Vergleichshai consumes versioned npm releases and deletes its duplicated reusable implementation.
-- The standalone backend becomes the long-term feedback system of record. A compatibility transport can let Vergleichshai dogfood the SDK before its existing .NET endpoint is migrated.
-
-The dogfooding effort is a migration project, not a permanent fork or second implementation.
-
----
 
 # Phase 0: Product, legal, and repository decisions
 
@@ -249,7 +234,8 @@ These decisions block a responsible public release.
 
 ## 2.4 Action breadcrumbs and failed-request capture
 
-Vergleichshai has already proven that these diagnostics materially improve reproduction. Port the behavior as configurable, privacy-safe SDK features rather than copying its global patches unchanged.
+These diagnostics materially improve reproduction and must remain configurable,
+bounded, and privacy-safe.
 
 - [x] Define a typed, versioned breadcrumb schema.
 - [x] Capture bounded click breadcrumbs for buttons, links, and elements with button roles.
@@ -284,7 +270,7 @@ Vergleichshai has already proven that these diagnostics materially improve repro
 - [x] Require a clear user gesture for display-media capture.
 - [ ] Normalize and localize user-facing permission errors.
 - [ ] Test cancellation, permission denial, timeout, unsupported browsers, and empty blobs.
-- [ ] Evaluate `html2canvas-pro`, which Vergleichshai adopted for modern CSS color support, against maintenance, license, bundle size, and compatibility requirements.
+- [x] Evaluate `html2canvas-pro` for modern CSS color support against maintenance, license, bundle size, and compatibility requirements.
 - [ ] Test viewport capture versus full-document capture on window-scrolling and nested-scroll-container layouts.
 - [x] Make the capture region configurable rather than assuming one behavior works for every host application.
 
@@ -302,14 +288,15 @@ Vergleichshai has already proven that these diagnostics materially improve repro
 
 ## 2.7 Host-provided application context
 
-Vergleichshai currently captures a shop cart snapshot. The generic SDK should support this without knowing about carts, products, sellers, or other application domains.
+The generic SDK should support host-provided application context without knowing
+about any specific business domain.
 
 - [x] Add a typed-safe `beforeSubmit` or `getContext` hook for host-provided context.
 - [x] Put host context under a namespaced field such as `context.application`.
 - [x] Apply runtime size limits and schema-safe serialization to host context.
 - [x] Allow the host to redact or omit context per submission.
 - [x] Document that domain data may contain personal or commercially sensitive information.
-- [ ] Provide a Vergleichshai-side adapter that supplies a cart snapshot without adding cart concepts to the package.
+- [ ] Document a host adapter example without adding domain-specific concepts to the package.
 
 ## 2.8 Transport interface
 
@@ -368,17 +355,18 @@ Vergleichshai currently captures a shop cart snapshot. The generic SDK should su
 - [x] Preserve unsent text across recoverable failures.
 - [x] Clear sensitive temporary data after success or cancellation.
 - [x] Require a useful description and validate it before capture/upload work begins.
-- [x] Decide whether a title is collected or derived from the first meaningful description line; Vergleichshai removed the separate title field after dogfooding.
+- [x] Derive the title from the first meaningful description line instead of collecting a separate title field.
 - [x] Support entry classification such as `bug`, `feedback`, and `idea` without hardcoding a customer-specific taxonomy.
 - [x] Support optional file attachments in addition to the automatic screenshot.
 - [ ] Define configurable attachment types and size limits.
 - [x] Automatically disable the automatic screenshot when a reporter selects their own image, unless they explicitly turn it back on.
 - [ ] Support long-lived upload state for larger screen recordings without freezing the dialog.
-- [x] Place the default trigger where it is unlikely to cover primary application actions; include right-edge vertical-tab placement as an option proven in Vergleichshai.
+- [x] Place the default trigger where it is unlikely to cover primary application actions; include right-edge vertical-tab placement as an option.
 
 ## 3.3 Screenshot annotation
 
-Vergleichshai has already validated annotation as useful feedback functionality. Port the interaction model, but redesign the implementation as framework-neutral widget code.
+Screenshot annotation is useful feedback functionality and should be implemented
+as framework-neutral widget code.
 
 - [ ] Define a versioned annotation shape schema using normalized image coordinates.
 - [ ] Support at least freehand/line, arrow, rectangle, ellipse, and text annotations.
@@ -551,7 +539,7 @@ This phase defines the contract before substantial server implementation.
 - [x] Decide who may close feedback: reporter, human triager, automation, or agent.
 - [x] Decide what happens when a resolved item fails verification.
 - [x] Ensure every transition writes an audit event.
-- [x] Map Vergleichshai's existing terminal dispositions (`wont_do`, `already_done`, `not_relevant`, `duplicate`) to stable generic resolution reasons rather than multiplying top-level states unnecessarily.
+- [x] Use stable generic resolution reasons (`wont_do`, `already_done`, `not_relevant`, `duplicate`) rather than multiplying top-level states unnecessarily.
 - [x] Preserve reopen history, previous status, actor, note, and optional new evidence.
 
 ## 4.3 API conventions
@@ -630,7 +618,7 @@ This phase defines the contract before substantial server implementation.
 - [x] Implement claim acquisition, renewal, release, and expiry atomically.
 - [x] Add a bounded, dry-run-safe data-retention cleanup command with grace-period purge and audit pseudonymization.
 - [ ] Test migrations up and down according to the migration policy.
-- [ ] Provide an import path from Vergleichshai's file-backed `report.json` folders and archives.
+- [ ] Provide an import path for legacy file-backed `report.json` folders and archives.
 - [ ] Preserve original IDs, timestamps, build SHAs, status, notes, attachments, and reopen addenda during import.
 
 ## 5.3 Authentication and authorization
@@ -788,7 +776,7 @@ The MCP server is an adapter over the HTTP API. It must not bypass API authoriza
 - [ ] Record agent/client/run identifiers in audit events.
 - [ ] Preserve human comments and decisions as authoritative context.
 - [x] Require an explicit reason to reject, close, or reopen feedback.
-- [ ] Preserve the useful Vergleichshai distinction between customer intake and the agent's internal task queue.
+- [ ] Preserve the distinction between customer intake and the agent's internal task queue.
 - [ ] Keep feedback as immutable intake/evidence while allowing an external adapter to create repository-native work items.
 
 ## 7.5 Triggering agent work
@@ -949,143 +937,64 @@ core public product.
 
 ---
 
-# Phase 11: Vergleichshai reconciliation and external dogfooding
+# Phase 11: External dogfooding and migration adapters
 
-This is the second dogfooding stage and a cross-repository migration track. It starts only after the in-repo demo has validated the public package boundaries and core workflows. Vergleichshai remains operational throughout it. Do not replace its working implementation in one step.
+This phase starts only after the in-repo demo has validated the public package
+boundaries and core workflows. External integrations should adopt versioned
+releases through thin host adapters, with reversible rollout steps.
 
-## 11.1 Baseline audit completed on 2026-08-02
+## 11.1 Establish reusable compatibility fixtures
 
-The standalone package was initially extracted on 2026-02-24. Vergleichshai subsequently added or refined the following behavior that is not present in the current package:
+- [ ] Add synthetic payload fixtures for representative browser applications.
+- [ ] Cover breadcrumbs, failed requests, browser errors, performance data, release identifiers, and host context.
+- [ ] Cover screenshots, user images, text attachments, and screen-recording metadata.
+- [ ] Cover legacy reports, reopened reports, and multiple evidence addenda.
+- [ ] Add contract tests proving supported legacy payloads can be imported safely.
+- [ ] Ensure fixtures contain no personal data, credentials, or private URLs.
 
-- Bounded click, form-submit, and SPA-navigation breadcrumbs.
-- Failed `fetch` and XHR request capture with query strings removed.
-- Full-document screenshots and use of `html2canvas-pro` for modern CSS colors.
-- Screenshot annotations with multiple shapes, text, movement, zoom, preview, and flattening.
-- File attachments, including larger screen recordings.
-- Required description and derived titles.
-- Bug/feedback versus idea classification.
-- Priority and normalized free-form labels.
-- Exact deployed build SHA on feedback records.
-- Reporter identity and roles from the host application's authentication.
-- Application-specific cart snapshot context in the shop.
-- New/in-progress/reopened/terminal workflow states and explicit dispositions.
-- Reopen with an append-only evidence trail and optional new screenshot.
-- Archive creation containing report payload and files.
-- Read-only customer admin screens with mutations routed through developer tooling.
-- A CLI for list, show, download, classify, mark, reopen, and archive operations.
-- Idempotent synchronization from feedback intake into repository-native `tasks/` folders.
-- Feedback-created notifications to administrators.
-- Widget usability fixes including internal modal scrolling, constrained previews, clearer removal behavior, and a right-edge vertical trigger.
-- Automatic disabling of automatic screenshot capture when a reporter uploads their own image.
+## 11.2 Dogfood the capture SDK and universal widget
 
-The following Vergleichshai implementation details must not be copied into the generic product:
-
-- Shop cart/product semantics; use generic host context instead.
-- Reactstrap, Elstar, Tailwind, German-only strings, and template-specific modal/toast components.
-- Four duplicated React widget implementations.
-- Vergleichshai role names and JWT claim assumptions.
-- Its current hardcoded test-environment triage token.
-- Local filesystem folders as the final production persistence model.
-- Vergleichshai notification event keys and admin routing.
-- Its exact task-folder frontmatter as a universal agent-work standard.
-
-## 11.2 Create a feature-parity matrix
-
-- [ ] Inventory all feedback-related Vergleichshai frontend, backend, CLI, test, and documentation files.
-- [ ] Map each behavior to `port`, `redesign`, `host adapter`, `migration only`, or `do not port`.
-- [ ] Link every `port` or `redesign` item to the owning phase and checklist item in this document.
-- [ ] Record payload-field differences between the standalone package and Vergleichshai.
-- [ ] Record status, type, priority, label, identity, attachment, and addendum differences.
-- [ ] Record authentication and authorization differences.
-- [ ] Record UI and accessibility lessons from Vergleichshai's bug-fix history.
-- [ ] Confirm which current Vergleichshai behaviors are still actively used before treating them as product requirements.
-- [ ] Reproduce every reusable Vergleichshai behavior in the in-repo demo before migrating Vergleichshai itself.
-
-## 11.3 Establish contract fixtures
-
-- [ ] Add sanitized Vergleichshai payload fixtures covering shop, admin, seller, and partner submissions.
-- [ ] Add fixtures with breadcrumbs, network failures, browser errors, performance data, build SHA, and cart context.
-- [ ] Add fixtures with screenshot, user image, text attachment, and screen-recording metadata.
-- [ ] Add fixtures for old reports that predate newer fields.
-- [ ] Add fixtures for reopened reports with multiple addenda.
-- [ ] Add contract tests proving the new SDK and server can accept supported legacy payloads.
-- [ ] Ensure every fixture is synthetic and contains no customer personal data, credentials, or private URLs.
-
-## 11.4 Stage A: dogfood the capture SDK behind the existing UI
-
-This is the lowest-risk first external integration after the demo is stable. Vergleichshai keeps its current React widgets and .NET endpoint while importing capture behavior from the package.
-
-- [ ] Publish an SDK prerelease suitable for local dogfooding.
-- [ ] Require the demo's SDK and browser acceptance gates to pass for that exact prerelease.
-- [ ] Add the package to Vergleichshai through a versioned registry release, not a copied folder or long-lived local link.
-- [ ] Create a Vergleichshai capture adapter for source app, authentication, release/build SHA, and optional cart context.
-- [ ] Keep the existing widget UI and submission flow initially.
-- [ ] Replace duplicated capture-store logic in one internal app first.
-- [ ] Proposed first consumer: admin, subject to operator approval.
-- [ ] Verify console, errors, network failures, breadcrumbs, screenshots, teardown, and payload compatibility.
-- [ ] Roll out to seller and partner after the first consumer is stable.
-- [ ] Roll out to shop last because it carries cart context and the Multikart-specific UI.
-- [ ] Remove old capture-store copies only after each app passes automated and manual parity tests.
-
-## 11.5 Stage B: dogfood the universal widget
-
-- [ ] Theme the Web Component with Vergleichshai-approved tokens rather than importing host template components into the package.
-- [ ] Confirm whether the universal widget meets both Multikart and Elstar visual/accessibility needs.
-- [ ] Preserve German localization through widget locale configuration.
-- [ ] Preserve feature flags and per-app source identifiers.
-- [ ] Preserve authenticated-only visibility where Vergleichshai requires it.
-- [ ] Replace one app's React widget with the universal widget behind a reversible feature flag.
-- [ ] Compare submission success, screenshot quality, annotations, attachments, accessibility, and primary-action overlap.
+- [ ] Publish an SDK prerelease suitable for external dogfooding.
+- [ ] Require the in-repo demo acceptance gates to pass for that exact prerelease.
+- [ ] Install through a versioned registry release, not copied source or a long-lived local link.
+- [ ] Keep application-specific authentication, context, feature flags, and theming in thin host adapters.
+- [ ] Start with one reversible integration behind a feature flag.
+- [ ] Verify capture, redaction, screenshots, annotations, attachments, teardown, localization, accessibility, and payload compatibility.
 - [ ] Collect dogfooding feedback through the widget itself.
-- [ ] Roll out app by app only after parity is demonstrated.
-- [ ] Retain a thin Vergleichshai host wrapper only for context, feature flags, authentication visibility, and theming.
-- [ ] Delete duplicated annotation and widget code after all consumers migrate.
+- [ ] Expand rollout only after a successful soak period.
 
-## 11.6 Stage C: dogfood the generic agent workflow
+## 11.3 Dogfood the agent workflow
 
-- [ ] Connect the generic CLI or MCP server to Vergleichshai in read-only mode first.
-- [ ] Compare `search_feedback`/`get_feedback` results against the existing triage CLI.
-- [ ] Add a Vergleichshai task adapter that creates the existing `tasks/<id>/task.md` and `feedback.json` format.
-- [ ] Preserve the `tasks/` folder as Vergleichshai's work-queue source of truth.
-- [ ] Prove sync idempotency against already-imported FBR IDs.
-- [ ] Enable claim/comment/resolve operations only after read behavior is verified.
-- [ ] Map generic resolution reasons to Vergleichshai's existing dispositions.
-- [ ] Preserve explicit human approval for final closure according to the agreed workflow.
-- [ ] Retire state-mutation commands in the old CLI only after MCP/generic CLI parity and auditability are proven.
+- [ ] Connect the generic CLI or MCP server in read-only mode first.
+- [ ] Verify `search_feedback` and `get_feedback` before enabling mutations.
+- [ ] Prove repository-task synchronization is idempotent.
+- [ ] Enable claim, comment, resolve, close, and reopen operations incrementally.
+- [ ] Preserve explicit human approval where the configured workflow requires it.
+- [ ] Retire legacy state-mutation tooling only after API/MCP parity and auditability are proven.
 
-## 11.7 Stage D: migrate backend ownership
+## 11.4 Migrate legacy backend data when required
 
-- [ ] Choose the transition shape: existing .NET compatibility adapter, dual-write period, or direct cutover.
-- [ ] Prefer a short, observable compatibility period over an indefinite dual-write architecture.
-- [ ] Implement an exporter for existing file-backed reports and archives.
-- [ ] Import into the standalone backend with count, hash, attachment, and metadata reconciliation.
-- [ ] Keep original feedback IDs so task links remain valid.
-- [ ] Configure Vergleichshai's endpoint environment variables to target the standalone service.
+- [ ] Choose a compatibility adapter, short dual-write period, or direct cutover based on migration risk.
+- [ ] Export and import legacy reports with count, hash, attachment, and metadata reconciliation.
+- [ ] Preserve original IDs, timestamps, statuses, evidence, and task links.
 - [ ] Verify authentication, project routing, CORS, rate limits, upload limits, and attachment downloads.
-- [ ] Verify admin notification replacement through generic events/webhooks.
 - [ ] Run old and new list/detail results side by side during the acceptance window.
-- [ ] Define a rollback window and keep the old data read-only until the migration is signed off.
-- [ ] Remove the Vergleichshai feedback controller and file storage only after data and workflow acceptance.
+- [ ] Define rollback steps and retain the old data read-only until migration acceptance.
 
-## 11.8 Dogfooding telemetry and acceptance
+## 11.5 Dogfooding telemetry and acceptance
 
-- [ ] Define SDK initialization, capture, upload, and submission failure metrics without collecting report contents.
+- [ ] Measure SDK initialization, capture, upload, and submission failures without collecting report contents.
 - [ ] Record package and server versions on every submission.
-- [ ] Add a dogfooding issue/feedback label so product-package defects can be separated from Vergleichshai application defects.
-- [ ] Review dogfooding reports at a regular cadence during migration.
-- [ ] Add regression cases to this repository when Vergleichshai exposes a generic defect.
-- [ ] Keep Vergleichshai-specific fixes in Vergleichshai when they do not generalize.
-- [ ] Require a successful soak period in each app before expanding rollout.
-- [ ] Define package rollback steps and pin exact versions in Vergleichshai.
+- [ ] Separate product-package defects from host-application defects with labels.
+- [ ] Add a demo scenario or package-level regression test for every generic defect discovered.
+- [ ] Document rollback steps and pin exact package versions during rollout.
 
 ## Phase 11 exit criteria
 
-- [ ] Vergleichshai imports released Ventus packages rather than maintaining reusable feedback code copies.
-- [ ] Shop, admin, seller, and partner use one reusable capture/widget implementation with thin host adapters.
-- [ ] Vergleichshai's `tasks/` workflow consumes feedback through the generic API/MCP boundary.
-- [ ] Existing feedback history, attachments, dispositions, and reopen evidence are preserved.
-- [ ] The old Vergleichshai feedback backend and duplicated frontend implementation are retired without service interruption or data loss.
-- [ ] Every generic regression discovered in Vergleichshai has a corresponding demo scenario or package-level test.
+- [ ] External consumers use released packages with thin host adapters.
+- [ ] Agent workflows operate through the generic API/MCP boundary.
+- [ ] Legacy history, attachments, dispositions, and reopen evidence survive any migration.
+- [ ] Generic regressions discovered through dogfooding have corresponding automated coverage.
 
 ---
 
@@ -1143,7 +1052,7 @@ This is the lowest-risk first external integration after the demo is stable. Ver
 - Redaction and privacy controls.
 - Transport interface.
 - Tests and vanilla example.
-- Vergleichshai parity fixtures and capture-store comparison.
+- Synthetic compatibility fixtures and capture-store comparison.
 - In-repo demo using the public browser-package API with a mock transport.
 
 ## Milestone 0.2: Universal widget
@@ -1153,7 +1062,7 @@ This is the lowest-risk first external integration after the demo is stable. Ver
 - Accessibility.
 - React wrapper.
 - Vanilla, React, Vue, and Svelte examples.
-- Screenshot annotations and attachment UX proven against Vergleichshai lessons.
+- Screenshot annotations and attachment UX proven through dogfooding.
 - In-repo demo exercising the widget, React wrapper, accessibility modes, and failure scenarios.
 
 ## Milestone 0.3: Self-hosted platform
@@ -1169,7 +1078,7 @@ This is the lowest-risk first external integration after the demo is stable. Ver
 - Search, get, claim, comment, link, resolve, close, and reopen tools.
 - Concurrency controls and expiring leases.
 - Codex integration guide and evaluation suite.
-- Generic repository-task adapter demonstrated with Vergleichshai's `tasks/` format.
+- Generic repository-task adapter demonstrated with a documented example format.
 - End-to-end demo flow from submission through agent resolution and verified closure.
 
 ## Milestone 0.5: Ecosystem beta
@@ -1200,12 +1109,12 @@ Work through these before beginning Phase 1 implementation:
 6. [x] Select the package manager and supported Node.js versions.
 7. [x] Replace placeholder component license files.
 8. [x] Create the first architectural decision record for the canonical HTTP API plus MCP-adapter approach.
-9. [ ] Create the detailed Vergleichshai feature-parity matrix from the 2026-08-02 baseline audit.
-10. [ ] Extract sanitized contract fixtures representing current Vergleichshai payload versions.
+9. [ ] Create a detailed compatibility matrix for representative integration patterns.
+10. [ ] Add synthetic contract fixtures for supported payload versions.
 11. [x] Approve the in-repo demo as the first dogfooding consumer.
 12. [x] Choose the minimal demo stack and mock-transport implementation during Phase 1 planning.
 13. [ ] Define the first demo acceptance scenarios for capture, redaction, screenshots, annotations, attachments, and failures.
-14. [x] Defer the first Vergleichshai consumer decision until the demo and first prerelease are stable.
+14. [x] Defer external consumer selection until the demo and first prerelease are stable.
 
 ---
 
@@ -1213,23 +1122,19 @@ Work through these before beginning Phase 1 implementation:
 
 Record accepted decisions here so implementation work does not repeatedly reopen them.
 
-| Date       | Decision                                                              | Status                            | Rationale / notes                                                                                                                                                                                                                                                                           |
-| ---------- | --------------------------------------------------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-08-02 | Use a headless browser SDK plus a framework-neutral Web Component     | Confirmed; implemented            | Prevents duplicated UI implementations across frameworks.                                                                                                                                                                                                                                   |
-| 2026-08-02 | Provide React as a thin wrapper only                                  | Confirmed; implemented            | Improves React ergonomics without forking widget behavior.                                                                                                                                                                                                                                  |
-| 2026-08-02 | Make the HTTP API the canonical business interface                    | Confirmed; implemented            | Keeps browser, human, integration, and agent workflows consistent. See ADR 0001.                                                                                                                                                                                                            |
-| 2026-08-02 | Implement MCP as an authorized adapter over the HTTP API              | Confirmed; stdio implemented      | Gives agents typed tools without bypassing domain or security rules.                                                                                                                                                                                                                        |
-| 2026-08-02 | Use PostgreSQL and S3-compatible object storage                       | Confirmed; implemented            | Separates relational workflow data from large binary attachments.                                                                                                                                                                                                                           |
-| 2026-08-02 | Distinguish `resolved` from `closed`                                  | Confirmed; implemented            | Lets an agent propose a verified fix while preserving final human/reporter closure.                                                                                                                                                                                                         |
-| 2026-08-02 | Use expiring claims and optimistic concurrency                        | Confirmed; implemented            | Prevents silent conflicts and permanently abandoned agent work.                                                                                                                                                                                                                             |
-| 2026-08-02 | License integration packages under MIT and the API under BSL 1.1      | Confirmed; legal review required  | Keeps SDK, UI, client, and MCP adoption frictionless; permits API production use through 1,000 aggregate feedback submissions per calendar month and requires commercial terms after three consecutive months above the threshold. Each API version changes to Apache-2.0 after four years. |
-| 2026-08-02 | Keep this repository and Vergleichshai separate during productization | Confirmed                         | Vergleichshai remains operational while this repository develops reusable packages and contracts.                                                                                                                                                                                           |
-| 2026-08-02 | Use an in-repo demo as the first dogfooding consumer                  | Confirmed; foundation implemented | Validates public package boundaries and failure scenarios without risking a customer application or coupling early APIs to Vergleichshai.                                                                                                                                                   |
-| 2026-08-02 | Use npm workspaces for the initial monorepo foundation                | Confirmed; implemented            | Reuses the demo scaffold's npm workflow and keeps the first slice small; package-manager migration remains possible before public release.                                                                                                                                                  |
-| 2026-08-02 | Use Vergleichshai as the first external dogfooding consumer           | Proposed                          | It provides real workflows after the package has passed controlled in-repo use.                                                                                                                                                                                                             |
-| 2026-08-02 | Use Cloudflare-backed Sites/Pages for the static public showcase      | Proposed                          | Matches the existing Vinext/Worker-compatible build, supports a Ventus-owned domain, and demonstrates the widget and simulated agent workflow without operating or implying a hosted backend. GitHub Pages remains the fallback.                                                            |
-| TBD        | Migrate Vergleichshai capture core before replacing its UI            | Proposed                          | Provides external package validation with the smallest user-visible and operational risk.                                                                                                                                                                                                   |
-| TBD        | Select the first Vergleichshai consumer after demo stabilization      | Deferred                          | Admin is a likely candidate, but the choice should reflect package and application state at migration time.                                                                                                                                                                                 |
+| Date       | Decision                                                          | Status                            | Rationale / notes                                                                                                                                                                                                                                                                           |
+| ---------- | ----------------------------------------------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-08-02 | Use a headless browser SDK plus a framework-neutral Web Component | Confirmed; implemented            | Prevents duplicated UI implementations across frameworks.                                                                                                                                                                                                                                   |
+| 2026-08-02 | Provide React as a thin wrapper only                              | Confirmed; implemented            | Improves React ergonomics without forking widget behavior.                                                                                                                                                                                                                                  |
+| 2026-08-02 | Make the HTTP API the canonical business interface                | Confirmed; implemented            | Keeps browser, human, integration, and agent workflows consistent. See ADR 0001.                                                                                                                                                                                                            |
+| 2026-08-02 | Implement MCP as an authorized adapter over the HTTP API          | Confirmed; stdio implemented      | Gives agents typed tools without bypassing domain or security rules.                                                                                                                                                                                                                        |
+| 2026-08-02 | Use PostgreSQL and S3-compatible object storage                   | Confirmed; implemented            | Separates relational workflow data from large binary attachments.                                                                                                                                                                                                                           |
+| 2026-08-02 | Distinguish `resolved` from `closed`                              | Confirmed; implemented            | Lets an agent propose a verified fix while preserving final human/reporter closure.                                                                                                                                                                                                         |
+| 2026-08-02 | Use expiring claims and optimistic concurrency                    | Confirmed; implemented            | Prevents silent conflicts and permanently abandoned agent work.                                                                                                                                                                                                                             |
+| 2026-08-02 | License integration packages under MIT and the API under BSL 1.1  | Confirmed; legal review required  | Keeps SDK, UI, client, and MCP adoption frictionless; permits API production use through 1,000 aggregate feedback submissions per calendar month and requires commercial terms after three consecutive months above the threshold. Each API version changes to Apache-2.0 after four years. |
+| 2026-08-02 | Use an in-repo demo as the first dogfooding consumer              | Confirmed; foundation implemented | Validates public package boundaries and failure scenarios without risking a customer application or coupling early APIs to a specific host.                                                                                                                                                 |
+| 2026-08-02 | Use npm workspaces for the initial monorepo foundation            | Confirmed; implemented            | Reuses the demo scaffold's npm workflow and keeps the first slice small; package-manager migration remains possible before public release.                                                                                                                                                  |
+| 2026-08-02 | Use Cloudflare-backed Sites/Pages for the static public showcase  | Proposed                          | Matches the existing Vinext/Worker-compatible build, supports a Ventus-owned domain, and demonstrates the widget and simulated agent workflow without operating or implying a hosted backend. GitHub Pages remains the fallback.                                                            |
 
 ---
 

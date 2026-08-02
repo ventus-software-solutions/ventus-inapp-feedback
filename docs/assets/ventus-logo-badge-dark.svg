@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 62" width="800" height="248">
+  <!-- Ventus dark-badge logo (inverted variant) — neon cyan logo in a dark chip, for light/white backgrounds -->
+  <rect x="0" y="0" width="200" height="62" rx="12" fill="#0a0a0a"/>
+  <g transform="translate(16, 16)">
+    <rect x="1" y="1" width="28" height="28" fill="#0a0a0a" stroke="#00f3ff" stroke-width="2"/>
+    <rect x="9" y="9" width="12" height="12" fill="#00f3ff"/>
+  </g>
+  <text x="58" y="39"
+        font-family="'Orbitron','Segoe UI',Arial,sans-serif"
+        font-weight="700" font-size="22" fill="#00f3ff" letter-spacing="3.5">VENTUS</text>
+</svg>

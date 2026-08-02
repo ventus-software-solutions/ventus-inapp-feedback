@@ -1,7 +1,11 @@
 # Ventus In-App Feedback
 
-Built and maintained by
-[Ventus Software Solutions GmbH](https://ventus.works/?utm_source=github&utm_medium=referral&utm_campaign=ventus-inapp-feedback).
+<p align="center">
+  <a href="https://ventus.works?utm_source=ventus-inapp-feedback&amp;utm_medium=referral&amp;utm_campaign=badge" title="Made by Ventus">
+    <span>Made by </span><img src="docs/assets/ventus-logo-badge-dark.svg" alt="Ventus" width="100"><br>
+    <sub>AI feedback software from Cologne</sub>
+  </a>
+</p>
 
 Developer-friendly in-app feedback capture and an agent-ready workflow for
 turning user reports into shipped improvements. Users can submit bug reports,
@@ -361,7 +365,7 @@ legal review before the first public release.
 ## About Ventus
 
 Ventus In-App Feedback is a product of
-[Ventus Software Solutions GmbH](https://ventus.works/?utm_source=github&utm_medium=referral&utm_campaign=ventus-inapp-feedback-about).
-Visit [ventus.works](https://ventus.works/?utm_source=github&utm_medium=referral&utm_campaign=ventus-inapp-feedback-footer)
+[Ventus Software Solutions GmbH](https://ventus.works?utm_source=ventus-inapp-feedback&utm_medium=referral&utm_campaign=about).
+Visit [ventus.works](https://ventus.works?utm_source=ventus-inapp-feedback&utm_medium=referral&utm_campaign=footer)
 or contact [hello@ventus.works](mailto:hello@ventus.works) for commercial
 licensing and company information.

@@ -101,23 +101,80 @@ button, .file-label {
 .preview img { max-width: 100%; max-height: 180px; border: 1px solid var(--ventus-border); border-radius: 9px; object-fit: contain; }
 .form-footer { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
 .actions { display: flex; justify-content: flex-end; gap: 9px; }
-.ventus-brand {
+a.ventus-badge[href] {
+  all: initial;
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
-  gap: 7px;
-  color: var(--ventus-muted);
+  gap: 2px;
+  box-sizing: border-box;
+  padding: 6px 12px 5px;
+  border: 1px solid rgba(255, 255, 255, .15);
+  border-radius: 20px;
+  background: rgba(10, 10, 10, .9);
+  color: rgba(255, 255, 255, .85);
+  cursor: pointer;
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 11px;
-  font-weight: 550;
+  font-weight: 500;
+  letter-spacing: .3px;
   line-height: 1;
   text-decoration: none;
+  transition: all .2s ease;
   white-space: nowrap;
 }
-.ventus-brand svg { display: block; width: 84px; height: auto; }
-.ventus-brand:hover span { color: var(--ventus-text); }
-.ventus-brand:focus-visible {
-  border-radius: 7px;
+a.ventus-badge[href]:hover {
+  border-color: rgba(0, 243, 255, .3);
+  background: rgba(10, 10, 10, .95);
+  color: #fff;
+  text-decoration: none;
+}
+a.ventus-badge[href]:visited,
+a.ventus-badge[href]:active,
+a.ventus-badge[href]:focus { color: rgba(255, 255, 255, .85); text-decoration: none; }
+a.ventus-badge[href]:focus-visible {
   outline: 3px solid color-mix(in srgb, var(--ventus-accent) 55%, white);
   outline-offset: 3px;
+}
+a.ventus-badge[href] .ventus-badge-row {
+  all: initial;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: 1;
+}
+a.ventus-badge[href] .ventus-badge-text {
+  all: initial;
+  display: inline;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+}
+a.ventus-badge[href] img.ventus-badge-icon {
+  all: initial;
+  display: inline-block;
+  width: auto;
+  max-width: none;
+  height: 14px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  object-fit: contain;
+}
+a.ventus-badge[href] .ventus-badge-sub {
+  all: initial;
+  display: inline;
+  color: inherit;
+  opacity: .55;
+  font-family: inherit;
+  font-size: 7px;
+  font-weight: 400;
+  letter-spacing: .35px;
+  line-height: 1;
+  white-space: nowrap;
 }
 .primary { background: var(--ventus-accent); border-color: var(--ventus-accent); color: var(--ventus-accent-contrast); }
 button:disabled { cursor: wait; opacity: .62; }
@@ -129,7 +186,12 @@ button:disabled { cursor: wait; opacity: .62; }
   .form-footer { align-items: stretch; flex-direction: column-reverse; }
   .actions { flex-direction: column-reverse; }
   .actions button { width: 100%; }
-  .ventus-brand { align-self: center; }
+  .ventus-badge { align-self: center; }
+}
+@media (max-width: 640px) {
+  a.ventus-badge[href] .ventus-badge-text,
+  a.ventus-badge[href] .ventus-badge-sub { display: none; }
+  a.ventus-badge[href] { padding: 6px 10px; border-radius: 20px; }
 }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 :host([dir="rtl"]) .trigger { left: 0; right: auto; border-radius: 0 10px 10px 0; }

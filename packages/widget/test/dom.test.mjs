@@ -85,22 +85,24 @@ test("does not stack delegated event listeners after reconnecting", () => {
   assert.equal(opens, 1);
 });
 
-test("renders accessible Ventus attribution with a safe external link", () => {
+test("renders the official SEO-aware Ventus badge with a safe external link", () => {
   const widget = document.createElement(defineTestWidget());
   document.body.append(widget);
 
-  const attribution = widget.shadowRoot.querySelector(".ventus-brand");
+  const attribution = widget.shadowRoot.querySelector(".ventus-badge");
   assert.equal(
     attribution.getAttribute("aria-label"),
-    "Powered by Ventus Software Solutions",
+    "Made by Ventus, AI feedback software from Cologne",
   );
   assert.equal(attribution.getAttribute("target"), "_blank");
   assert.equal(attribution.getAttribute("rel"), "noopener");
   assert.equal(
     attribution.href,
-    "https://ventus.works/?utm_source=ventus-inapp-feedback&utm_medium=referral&utm_campaign=widget",
+    "https://ventus.works/?utm_source=ventus-inapp-feedback&utm_medium=referral&utm_campaign=badge",
   );
-  assert.match(attribution.textContent, /Powered by\s+VENTUS/);
+  assert.equal(attribution.querySelector("img").getAttribute("alt"), "Ventus");
+  assert.match(attribution.textContent, /Made by/);
+  assert.match(attribution.textContent, /AI feedback software from Cologne/);
 });
 
 test("updates the trigger label when locale and override attributes change", () => {
