@@ -815,9 +815,14 @@ export function FeedbackLab() {
             ? "Capture core + self-hosted API + agent queue"
             : "No account · no backend · no uploaded data"}
         </span>
-        <a href="https://github.com/ventus-software-solutions/ventus-inapp-feedback#local-development">
-          Run the real stack locally
-        </a>
+        <nav aria-label="Project and company links">
+          <a href="https://github.com/ventus-software-solutions/ventus-inapp-feedback">
+            GitHub repository
+          </a>
+          <a href="https://ventus.works/?utm_source=ventus-inapp-feedback&amp;utm_medium=referral&amp;utm_campaign=public-demo-footer">
+            Built by Ventus Software Solutions GmbH
+          </a>
+        </nav>
       </footer>
     </main>
   );

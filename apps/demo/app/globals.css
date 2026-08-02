@@ -664,6 +664,17 @@ footer a {
   color: inherit;
 }
 
+footer nav {
+  display: flex;
+  gap: 10px 20px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+footer nav a {
+  font-weight: 700;
+}
+
 @media (max-width: 980px) {
   .hero,
   .lab-grid,
@@ -714,6 +725,10 @@ footer a {
   .install-panel,
   footer {
     flex-direction: column;
+  }
+
+  footer nav {
+    justify-content: flex-start;
   }
 
   .run-state,
