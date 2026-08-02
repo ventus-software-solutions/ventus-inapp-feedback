@@ -1,0 +1,58 @@
+name: Publish npm packages
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: npm-publish
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    if: github.repository == 'ventus-software-solutions/ventus-inapp-feedback'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ github.event.release.tag_name }}
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: 22.19.0
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+      - name: Use an npm CLI with trusted-publishing support
+        run: npm install --global npm@11.16.0
+      - run: npm ci --ignore-scripts
+      - run: npm run verify
+      - name: Validate package set and tarballs
+        run: node scripts/publish-npm-packages.mjs --tag-name "${{ github.event.release.tag_name }}" --prerelease "${{ github.event.release.prerelease }}" --dry-run
+
+  publish:
+    needs: verify
+    if: github.repository == 'ventus-software-solutions/ventus-inapp-feedback'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: npm
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ github.event.release.tag_name }}
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: 22.19.0
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+      - name: Use an npm CLI with trusted-publishing support
+        run: npm install --global npm@11.16.0
+      - run: npm ci --ignore-scripts
+      - run: npm run build
+      - name: Publish package set
+        run: node scripts/publish-npm-packages.mjs --tag-name "${{ github.event.release.tag_name }}" --prerelease "${{ github.event.release.prerelease }}"

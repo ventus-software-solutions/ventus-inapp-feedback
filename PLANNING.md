@@ -886,7 +886,8 @@ The MCP server is an adapter over the HTTP API. It must not bypass API authoriza
 - [ ] Configure npm trusted publishing with OIDC.
 - [ ] Publish from protected release tags or approved release environments.
 - [ ] Generate provenance for public packages.
-- [ ] Require builds, tests, package inspection, and license checks before publishing.
+- [x] Require builds, tests, package inspection, and license checks before publishing.
+- [x] Add an idempotent package-set publisher that validates matching versions, release tags, prerelease channels, internal dependencies, and publication order.
 - [ ] Verify package installation from npm in clean example projects.
 - [ ] Revoke unnecessary long-lived npm write tokens after trusted publishing works.
 

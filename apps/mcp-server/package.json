@@ -15,7 +15,7 @@
     "url": "https://github.com/ventus-software-solutions/ventus-inapp-feedback/issues"
   },
   "bin": {
-    "ventus-feedback-mcp": "./dist/stdio.js"
+    "ventus-feedback-mcp": "dist/stdio.js"
   },
   "exports": {
     ".": {
@@ -33,7 +33,7 @@
   },
   "scripts": {
     "build": "tsc -p ./tsconfig.build.json",
-    "typecheck": "tsc -p ./tsconfig.json --noEmit",
+    "typecheck": "npm run build --workspace @ventus/feedback-api-client && tsc -p ./tsconfig.json --noEmit",
     "test": "npm run build && node --test ./test/*.test.mjs",
     "prepublishOnly": "node ../../scripts/check-release-readiness.mjs"
   },

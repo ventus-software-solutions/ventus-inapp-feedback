@@ -286,6 +286,7 @@ configuration, and the complete tool contract.
 - `apps/api` — self-hosted Fastify/PostgreSQL API with an in-memory test adapter.
 - `apps/mcp-server` — stdio MCP adapter backed exclusively by the typed HTTP client.
 - `apps/demo` — local dogfooding playground using the public packages.
+- `docs/releasing.md` — guarded npm beta and stable release process.
 - `PLANNING.md` — comprehensive productization and release plan.
 
 ## Local development
