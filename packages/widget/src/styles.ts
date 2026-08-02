@@ -164,18 +164,6 @@ a.ventus-badge[href] img.ventus-badge-icon {
   border: none;
   object-fit: contain;
 }
-a.ventus-badge[href] .ventus-badge-sub {
-  all: initial;
-  display: inline;
-  color: inherit;
-  opacity: .55;
-  font-family: inherit;
-  font-size: 7px;
-  font-weight: 400;
-  letter-spacing: .35px;
-  line-height: 1;
-  white-space: nowrap;
-}
 .primary { background: var(--ventus-accent); border-color: var(--ventus-accent); color: var(--ventus-accent-contrast); }
 button:disabled { cursor: wait; opacity: .62; }
 .status[data-tone="error"] { color: var(--ventus-danger); }
@@ -189,8 +177,7 @@ button:disabled { cursor: wait; opacity: .62; }
   .ventus-badge { align-self: center; }
 }
 @media (max-width: 640px) {
-  a.ventus-badge[href] .ventus-badge-text,
-  a.ventus-badge[href] .ventus-badge-sub { display: none; }
+  a.ventus-badge[href] .ventus-badge-text { display: none; }
   a.ventus-badge[href] { padding: 6px 10px; border-radius: 20px; }
 }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }

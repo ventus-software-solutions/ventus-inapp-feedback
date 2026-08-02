@@ -85,15 +85,12 @@ test("does not stack delegated event listeners after reconnecting", () => {
   assert.equal(opens, 1);
 });
 
-test("renders the official SEO-aware Ventus badge with a safe external link", () => {
+test("renders the official Ventus badge with a safe external link", () => {
   const widget = document.createElement(defineTestWidget());
   document.body.append(widget);
 
   const attribution = widget.shadowRoot.querySelector(".ventus-badge");
-  assert.equal(
-    attribution.getAttribute("aria-label"),
-    "Made by Ventus, AI feedback software from Cologne",
-  );
+  assert.equal(attribution.getAttribute("aria-label"), "Made by Ventus");
   assert.equal(attribution.getAttribute("target"), "_blank");
   assert.equal(attribution.getAttribute("rel"), "noopener");
   assert.equal(
@@ -102,7 +99,7 @@ test("renders the official SEO-aware Ventus badge with a safe external link", ()
   );
   assert.equal(attribution.querySelector("img").getAttribute("alt"), "Ventus");
   assert.match(attribution.textContent, /Made by/);
-  assert.match(attribution.textContent, /AI feedback software from Cologne/);
+  assert.doesNotMatch(attribution.textContent, /software from Cologne/i);
 });
 
 test("updates the trigger label when locale and override attributes change", () => {

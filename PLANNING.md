@@ -479,6 +479,9 @@ reports are persisted, processed by a real agent, or sent to Ventus.
 - [ ] Keep all submissions in memory and clear them on refresh; do not use project keys, service tokens, cookies, analytics, or remote API calls.
 - [ ] Let visitors open the widget, choose bug/feedback/idea, toggle diagnostic groups, capture a locally generated masked screenshot, and inspect the sanitized structured payload.
 - [ ] Add a simulated agent timeline showing search, claim, comment, evidence, resolve, verify, close, and reopen without presenting simulated actions as real automation.
+- [ ] Show the simulated backend record and sanitized JSON beside the reporter UI, with a synthetic feedback ID and explicit copy explaining that a real deployment stores it in the user's self-hosted backend.
+- [ ] Animate representative MCP calls such as `search_feedback`, `claim_feedback`, `comment_feedback`, `add_feedback_evidence`, `resolve_feedback`, and `close_feedback`, with pause, manual-step, reopen, and reset controls.
+- [ ] Keep a persistent `Simulation — nothing is uploaded or saved` indicator visible throughout the workflow and respect reduced-motion preferences.
 - [ ] Include concise links to installation, the one-command local stack, agent/MCP documentation, licensing, and the source repository.
 - [ ] Use a Ventus-owned canonical URL and include visible links back to `ventus.works`, installation docs, licensing, and the source repository.
 - [ ] Add a public-showcase build mode with no server-only data path and no dependency on a running feedback API.
@@ -488,6 +491,7 @@ reports are persisted, processed by a real agent, or sent to Ventus.
 - [ ] Complete keyboard, mobile, WCAG 2.2 AA, reduced-motion, screenshot-masking, and privacy-copy review before the first public deployment.
 - [ ] Configure the Ventus custom domain only after the showcase artifact and privacy gates pass.
 - [ ] Keep a documented GitHub Pages fallback that supports `/ventus-inapp-feedback/` if the preferred target becomes unavailable.
+- [ ] Keep the static build base-path-safe and provide a manually triggerable GitHub Pages deployment workflow so the fallback is continuously testable rather than theoretical.
 
 ### Public showcase acceptance
 

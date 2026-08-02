@@ -31,10 +31,9 @@ automatic screenshot. Temporary form data, captures, object URLs, and attachment
 references are cleared after success or cancellation. Recoverable submission
 errors retain the current form.
 
-The form footer includes the official two-line "Made by Ventus" badge from the
-Ventus branding system, using the visible project-specific subtitle
-`AI feedback software from Cologne`, self-contained canonical logo artwork, and
-UTM source attribution. It links to
+The form footer includes the compact "Made by Ventus" badge from the Ventus
+branding system, with self-contained canonical logo artwork and UTM source
+attribution. It links to
 [Ventus Software Solutions](https://ventus.works?utm_source=ventus-inapp-feedback&utm_medium=referral&utm_campaign=badge)
 without collecting feedback content or runtime telemetry.
 
