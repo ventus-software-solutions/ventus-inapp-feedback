@@ -25,6 +25,8 @@ const demoFeedbackTransport: FeedbackTransport<DemoContext> = isLiveApiMode
     })
   : mockFeedbackTransport;
 
+const loadHtml2Canvas = () => import("html2canvas-pro");
+
 type RunState = {
   tone: "idle" | "success" | "warning";
   message: string;
@@ -59,6 +61,7 @@ export function FeedbackLab() {
         screenshot: {
           maskSelectors: ["input[type='password']", "[data-feedback-mask]"],
         },
+        loadHtml2Canvas,
       }),
     [],
   );
@@ -228,7 +231,7 @@ export function FeedbackLab() {
     });
   };
 
-  const testScreenshotBoundary = async () => {
+  const testScreenshotCapture = async () => {
     try {
       await capture.captureViewportScreenshotBlob();
       setRunState({
@@ -374,11 +377,11 @@ export function FeedbackLab() {
                 <small>Sanitized URL and status</small>
               </span>
             </button>
-            <button type="button" onClick={testScreenshotBoundary}>
+            <button type="button" onClick={testScreenshotCapture}>
               <span className="scenario-index">G</span>
               <span>
-                <strong>Screenshot boundary</strong>
-                <small>Expected loader error</small>
+                <strong>Viewport screenshot</strong>
+                <small>Masked browser capture</small>
               </span>
             </button>
           </div>
@@ -514,6 +517,10 @@ export function FeedbackLab() {
               performance: true,
             },
             redaction: { allowedQueryParameters: ["scenario"] },
+            screenshot: {
+              maskSelectors: ["input[type='password']", "[data-feedback-mask]"],
+            },
+            loadHtml2Canvas,
           }}
           context={() => ({
             scenario: "widget-dogfood",
