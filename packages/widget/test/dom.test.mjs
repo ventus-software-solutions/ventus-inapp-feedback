@@ -85,6 +85,24 @@ test("does not stack delegated event listeners after reconnecting", () => {
   assert.equal(opens, 1);
 });
 
+test("renders accessible Ventus attribution with a safe external link", () => {
+  const widget = document.createElement(defineTestWidget());
+  document.body.append(widget);
+
+  const attribution = widget.shadowRoot.querySelector(".ventus-brand");
+  assert.equal(
+    attribution.getAttribute("aria-label"),
+    "Powered by Ventus Software Solutions",
+  );
+  assert.equal(attribution.getAttribute("target"), "_blank");
+  assert.equal(attribution.getAttribute("rel"), "noopener");
+  assert.equal(
+    attribution.href,
+    "https://ventus.works/?utm_source=ventus-inapp-feedback&utm_medium=referral&utm_campaign=widget",
+  );
+  assert.match(attribution.textContent, /Powered by\s+VENTUS/);
+});
+
 test("updates the trigger label when locale and override attributes change", () => {
   const widget = document.createElement(defineTestWidget());
   document.body.append(widget);

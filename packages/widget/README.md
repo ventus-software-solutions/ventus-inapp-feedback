@@ -31,6 +31,11 @@ automatic screenshot. Temporary form data, captures, object URLs, and attachment
 references are cleared after success or cancellation. Recoverable submission
 errors retain the current form.
 
+The form footer includes a compact, accessible "Powered by Ventus" attribution
+using the official Ventus Software Solutions mark. The link opens the company
+site in a new tab and includes product-level referral attribution without
+collecting feedback content or runtime telemetry.
+
 Use `capture-mode="display"` for browser display-media capture or
 `capture-mode="none"` to hide the capture behavior in host code. Viewport capture
 requires a consumer-provided `loadHtml2Canvas` function through `captureOptions`.

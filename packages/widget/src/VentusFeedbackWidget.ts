@@ -546,7 +546,20 @@ export class VentusFeedbackWidget extends HTMLElementBase {
           </div>
           <div class="preview" data-visible="false"><img alt="Attachment preview"><span data-attachment-name></span><button type="button" data-action="remove-attachment" data-label="remove">${t.remove}</button></div>
           <p class="status" role="status" aria-live="polite" hidden></p>
-          <footer class="actions"><button type="button" data-action="close" data-label="cancel">${t.cancel}</button><button class="primary" type="submit" data-label="send">${t.send}</button></footer>
+          <footer class="form-footer">
+            <a class="ventus-brand ventus-feedback-ignore" href="https://ventus.works/?utm_source=ventus-inapp-feedback&amp;utm_medium=referral&amp;utm_campaign=widget" target="_blank" rel="noopener" aria-label="Powered by Ventus Software Solutions">
+              <span>Powered by</span>
+              <svg viewBox="0 0 200 62" role="img" aria-hidden="true" focusable="false">
+                <rect width="200" height="62" rx="12" fill="#0a0a0a"></rect>
+                <g transform="translate(16 16)">
+                  <rect x="1" y="1" width="28" height="28" fill="#0a0a0a" stroke="#00f3ff" stroke-width="2"></rect>
+                  <rect x="9" y="9" width="12" height="12" fill="#00f3ff"></rect>
+                </g>
+                <text x="58" y="39" font-family="Orbitron, Segoe UI, Arial, sans-serif" font-weight="700" font-size="22" fill="#00f3ff" letter-spacing="3.5">VENTUS</text>
+              </svg>
+            </a>
+            <div class="actions"><button type="button" data-action="close" data-label="cancel">${t.cancel}</button><button class="primary" type="submit" data-label="send">${t.send}</button></div>
+          </footer>
         </form>
       </dialog>`;
   }
