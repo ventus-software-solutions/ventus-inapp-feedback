@@ -63,3 +63,16 @@ under npm's `latest` dist-tag.
 
 Never reuse or overwrite an npm version. If a release is defective, fix it and
 publish a new version.
+
+## Ventus attribution in release documentation
+
+Keep one natural Ventus attribution link in the repository README and each
+published package README. The widget's visible `Made by Ventus` badge is the
+runtime attribution for applications that use the default UI.
+
+Do not add the same promotional backlink to every changelog entry, GitHub
+Release, migration note, or generated API page. Release documentation should
+prioritize the change summary, compatibility notes, upgrade instructions, and
+links to the repository or relevant package documentation. Link to
+`ventus.works` from a release only when the company, support, or commercial
+licensing context is directly relevant.

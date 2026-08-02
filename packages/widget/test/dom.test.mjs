@@ -90,7 +90,10 @@ test("renders the official Ventus badge with a safe external link", () => {
   document.body.append(widget);
 
   const attribution = widget.shadowRoot.querySelector(".ventus-badge");
-  assert.equal(attribution.getAttribute("aria-label"), "Made by Ventus");
+  assert.equal(
+    attribution.getAttribute("aria-label"),
+    "Made by Ventus, a software company from Cologne",
+  );
   assert.equal(attribution.getAttribute("target"), "_blank");
   assert.equal(attribution.getAttribute("rel"), "noopener");
   assert.equal(
@@ -99,7 +102,7 @@ test("renders the official Ventus badge with a safe external link", () => {
   );
   assert.equal(attribution.querySelector("img").getAttribute("alt"), "Ventus");
   assert.match(attribution.textContent, /Made by/);
-  assert.doesNotMatch(attribution.textContent, /software from Cologne/i);
+  assert.match(attribution.textContent, /a software company from Cologne/);
 });
 
 test("updates the trigger label when locale and override attributes change", () => {
