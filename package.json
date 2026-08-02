@@ -35,13 +35,13 @@
     "node": ">=22.13.0"
   },
   "devDependencies": {
-    "@eslint/js": "9.39.4",
+    "@eslint/js": "10.0.1",
     "@playwright/test": "1.62.1",
-    "eslint": "9.39.4",
+    "eslint": "10.8.0",
     "eslint-plugin-react-hooks": "7.1.1",
-    "globals": "16.4.0",
-    "prettier": "3.6.2",
-    "typescript": "5.9.3",
+    "globals": "17.8.0",
+    "prettier": "3.9.6",
+    "typescript": "7.0.2",
     "typescript-eslint": "8.65.0"
   },
   "overrides": {
