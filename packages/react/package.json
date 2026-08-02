@@ -1,6 +1,6 @@
 {
   "name": "@ventus-software-solutions/feedback-react",
-  "version": "0.1.0-beta.2",
+  "version": "0.1.0-beta.3",
   "description": "Thin React wrapper for the Ventus In-App Feedback Web Component.",
   "license": "MIT",
   "repository": {
@@ -36,8 +36,8 @@
     "prepublishOnly": "node ../../scripts/check-release-readiness.mjs"
   },
   "dependencies": {
-    "@ventus-software-solutions/feedback-browser": "0.1.0-beta.2",
-    "@ventus-software-solutions/feedback-widget": "0.1.0-beta.2"
+    "@ventus-software-solutions/feedback-browser": "0.1.0-beta.3",
+    "@ventus-software-solutions/feedback-widget": "0.1.0-beta.3"
   },
   "peerDependencies": {
     "react": ">=18 <20"

@@ -1,6 +1,6 @@
 {
   "name": "@ventus-software-solutions/feedback-widget",
-  "version": "0.1.0-beta.2",
+  "version": "0.1.0-beta.3",
   "description": "Framework-neutral Web Component for Ventus In-App Feedback.",
   "license": "MIT",
   "repository": {
@@ -36,7 +36,7 @@
     "prepublishOnly": "node ../../scripts/check-release-readiness.mjs"
   },
   "dependencies": {
-    "@ventus-software-solutions/feedback-browser": "0.1.0-beta.2"
+    "@ventus-software-solutions/feedback-browser": "0.1.0-beta.3"
   },
   "engines": {
     "node": ">=18"
