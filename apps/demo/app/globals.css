@@ -107,6 +107,22 @@ pre:focus-visible {
   font-weight: 700;
 }
 
+.phase-badge.mock {
+  border-color: #dbc99e;
+  color: #715019;
+  background: #f5e9c9;
+}
+
+.phase-badge.live::before {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: #20845f;
+  content: "";
+}
+
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);

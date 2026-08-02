@@ -3,11 +3,27 @@
 import {
   createFeedbackCaptureCore,
   createFeedbackSubmission,
+  createHttpFeedbackTransport,
   type FeedbackCapturePayload,
+  type FeedbackReceipt,
+  type FeedbackTransport,
 } from "@ventus/feedback-browser";
 import { FeedbackWidget } from "@ventus/feedback-react";
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import { mockFeedbackTransport, type MockSubmission } from "./mockTransport";
+import { mockFeedbackTransport } from "./mockTransport";
+
+const feedbackEndpoint = import.meta.env.VITE_VENTUS_FEEDBACK_ENDPOINT?.trim();
+const feedbackProjectKey =
+  import.meta.env.VITE_VENTUS_FEEDBACK_PROJECT_KEY?.trim();
+const isLiveApiMode = Boolean(feedbackEndpoint && feedbackProjectKey);
+
+const demoFeedbackTransport: FeedbackTransport<DemoContext> = isLiveApiMode
+  ? createHttpFeedbackTransport<DemoContext>({
+      endpoint: feedbackEndpoint!,
+      headers: { "x-feedback-project-key": feedbackProjectKey! },
+      retry: { maxAttempts: 2, baseDelayMs: 300 },
+    })
+  : mockFeedbackTransport;
 
 type RunState = {
   tone: "idle" | "success" | "warning";
@@ -50,7 +66,7 @@ export function FeedbackLab() {
   const [description, setDescription] = useState(INITIAL_DESCRIPTION);
   const [payload, setPayload] =
     useState<FeedbackCapturePayload<DemoContext> | null>(null);
-  const [receipt, setReceipt] = useState<MockSubmission | null>(null);
+  const [receipt, setReceipt] = useState<FeedbackReceipt | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isCaptureActive, setIsCaptureActive] = useState(true);
   const [runState, setRunState] = useState<RunState>({
@@ -237,13 +253,23 @@ export function FeedbackLab() {
 
     try {
       const nextPayload = refreshPayload();
-      const nextReceipt = await mockFeedbackTransport.submit(
+      const nextReceipt = await demoFeedbackTransport.submit(
         createFeedbackSubmission({ payload: nextPayload }),
       );
       setReceipt(nextReceipt);
       setRunState({
         tone: "success",
-        message: "The mock transport accepted the feedback payload.",
+        message: isLiveApiMode
+          ? `Saved ${nextReceipt.id} to the local API. It is ready for an agent to claim.`
+          : "The mock transport accepted the feedback payload.",
+      });
+    } catch (error) {
+      setRunState({
+        tone: "warning",
+        message:
+          error instanceof Error
+            ? error.message
+            : "The feedback submission failed.",
       });
     } finally {
       setIsSubmitting(false);
@@ -260,7 +286,9 @@ export function FeedbackLab() {
           <p className="eyebrow">Ventus In-App Feedback</p>
           <h1>Capture Lab</h1>
         </div>
-        <span className="phase-badge">Foundation · 0.1</span>
+        <span className={`phase-badge ${isLiveApiMode ? "live" : "mock"}`}>
+          {isLiveApiMode ? "Live API · 0.1" : "Mock mode · 0.1"}
+        </span>
       </header>
 
       <section className="hero" aria-labelledby="hero-title">
@@ -270,7 +298,8 @@ export function FeedbackLab() {
           <p className="hero-copy">
             This playground consumes the browser SDK through its public package
             export. Run a synthetic failure, inspect the captured payload, and
-            send it through the disposable mock transport.
+            send it through either the real self-hosted API or the disposable
+            mock transport.
           </p>
         </div>
         <div className="signal-card" aria-label="Current package boundary">
@@ -279,6 +308,11 @@ export function FeedbackLab() {
           <i aria-hidden="true">↓</i>
           <span>Public package</span>
           <strong>@ventus/feedback-browser</strong>
+          <i aria-hidden="true">↓</i>
+          <span>{isLiveApiMode ? "Connected API" : "Transport"}</span>
+          <strong>
+            {isLiveApiMode ? feedbackEndpoint : "Disposable local mock"}
+          </strong>
         </div>
       </section>
 
@@ -405,14 +439,18 @@ export function FeedbackLab() {
                 type="submit"
                 disabled={isSubmitting || !description.trim()}
               >
-                {isSubmitting ? "Sending…" : "Send to mock transport"}
+                {isSubmitting
+                  ? "Sending…"
+                  : isLiveApiMode
+                    ? "Send to local API"
+                    : "Send to mock transport"}
               </button>
             </div>
           </form>
 
           {receipt ? (
             <div className="receipt" role="status">
-              <span>Accepted</span>
+              <span>{isLiveApiMode ? "Saved to API" : "Accepted"}</span>
               <code>{receipt.id}</code>
               <time dateTime={receipt.createdAt}>
                 {new Date(receipt.createdAt).toLocaleTimeString()}
@@ -456,14 +494,15 @@ export function FeedbackLab() {
         </div>
         <p>
           Use the fixed feedback trigger on the right edge to exercise the
-          published widget package with its typed mock transport.
+          published widget package. In live mode, the resulting stable feedback
+          ID is stored in PostgreSQL and is immediately available to agents.
         </p>
         <FeedbackWidget<DemoContext>
           sourceApp="demo-widget"
           release="demo-local"
           environment="development"
           theme="auto"
-          transport={mockFeedbackTransport}
+          transport={demoFeedbackTransport}
           captureOptions={{
             storeKey: "__ventusWidgetDemoCapture",
             diagnostics: {
@@ -481,13 +520,34 @@ export function FeedbackLab() {
             testerEmail: "demo.user@example.com",
             password: "synthetic-password",
           })}
-          onSuccess={({ receipt: widgetReceipt }) => setReceipt(widgetReceipt)}
+          onSuccess={({ receipt: widgetReceipt }) => {
+            setReceipt(widgetReceipt);
+            setRunState({
+              tone: "success",
+              message: isLiveApiMode
+                ? `Saved ${widgetReceipt.id} to the local API. It is ready for an agent to claim.`
+                : "The mock transport accepted the widget submission.",
+            });
+          }}
+          onError={({ error }) =>
+            setRunState({
+              tone: "warning",
+              message:
+                error instanceof Error
+                  ? error.message
+                  : "The widget submission failed.",
+            })
+          }
         />
       </section>
 
       <footer>
         <span>Local-only dogfood surface</span>
-        <span>Capture core + transport + Web Component</span>
+        <span>
+          {isLiveApiMode
+            ? "Capture core + self-hosted API + agent queue"
+            : "Capture core + mock transport + Web Component"}
+        </span>
       </footer>
     </main>
   );

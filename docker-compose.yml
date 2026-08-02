@@ -23,7 +23,7 @@ services:
       MINIO_ROOT_PASSWORD: ventus-local-password
     ports:
       - "${VENTUS_S3_HOST_PORT:-19000}:9000"
-      - "9001:9001"
+      - "${VENTUS_S3_CONSOLE_HOST_PORT:-9001}:9001"
     volumes:
       - ventus-objects:/data
 
@@ -54,7 +54,7 @@ services:
       VENTUS_S3_FORCE_PATH_STYLE: "true"
       VENTUS_S3_SERVER_SIDE_ENCRYPTION: "false"
       VENTUS_ALLOW_UNSCANNED_ATTACHMENTS: "true"
-      VENTUS_PROJECT_KEYS_JSON: '{"demo-browser-key":{"workspaceId":"ws_demo","projectId":"prj_demo","allowedOrigins":["http://localhost:3000"]}}'
+      VENTUS_PROJECT_KEYS_JSON: '{"demo-browser-key":{"workspaceId":"ws_demo","projectId":"prj_demo","allowedOrigins":["${VENTUS_DEMO_ORIGIN:-http://localhost:3000}"]}}'
       VENTUS_SERVICE_TOKENS_JSON: '{"demo-service-token":{"workspaceId":"ws_demo","actorId":"svc_demo","actorType":"service_account","displayName":"Demo service","scopes":["feedback:read","feedback:triage","feedback:comment","feedback:resolve","feedback:close"]},"demo-agent-two-token":{"workspaceId":"ws_demo","actorId":"agent_two","actorType":"agent","displayName":"Second demo agent","scopes":["feedback:read","feedback:triage","feedback:comment","feedback:resolve"]}}'
     depends_on:
       postgres:

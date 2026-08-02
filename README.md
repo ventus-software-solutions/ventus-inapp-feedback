@@ -189,6 +189,26 @@ npm install
 npm run demo
 ```
 
+To dogfood the complete browser-to-agent flow on conflict-free local ports,
+copy the checked-in example configuration and start the backend:
+
+```powershell
+Copy-Item .env.example .env
+Copy-Item apps/demo/.env.example apps/demo/.env.local
+docker compose up --build
+```
+
+Then start the demo in another terminal:
+
+```powershell
+npm run demo:dogfood
+```
+
+Open `http://localhost:3100`. Submissions from the capture form and fixed widget
+are stored by the API at `http://localhost:8180` and return a stable feedback ID
+that an MCP agent can immediately search for and claim. Without the demo's
+`.env.local`, the UI clearly falls back to its disposable mock transport.
+
 Run the complete foundation checks with:
 
 ```bash

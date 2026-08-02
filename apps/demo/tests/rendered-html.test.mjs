@@ -26,5 +26,11 @@ test("server-renders the capture lab", async () => {
   assert.match(html, /Break things here before customers do\./);
   assert.match(html, /Synthetic scenarios/);
   assert.match(html, /Captured payload/);
+  assert.match(html, /Mock mode · 0\.1/);
+  assert.match(
+    html,
+    /real self-hosted API or the disposable\s+mock transport/i,
+  );
+  assert.match(html, /immediately available to agents/i);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });

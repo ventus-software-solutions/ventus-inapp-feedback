@@ -24,6 +24,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "demo": "npm run dev --workspace @ventus/feedback-demo",
+    "demo:dogfood": "npm run dev --workspace @ventus/feedback-demo -- --port 3100",
     "pack:check": "npm pack --dry-run --workspace @ventus/feedback-contracts && npm pack --dry-run --workspace @ventus/feedback-api-client && npm pack --dry-run --workspace @ventus/feedback-browser && npm pack --dry-run --workspace @ventus/feedback-widget && npm pack --dry-run --workspace @ventus/feedback-react && npm pack --dry-run --workspace @ventus/feedback-mcp",
     "audit": "npm audit --audit-level=high",
     "release:check": "node scripts/check-release-readiness.mjs",
