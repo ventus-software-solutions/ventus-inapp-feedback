@@ -321,6 +321,22 @@ PostgreSQL on `15433`, the MinIO API on `19001`, and the MinIO console on
 `19002`. Copy `.env.example` to `.env` only when you want to override these
 defaults.
 
+To run the automated real-boundary dogfooding acceptance after the stack is
+healthy:
+
+```bash
+npx playwright install chromium
+npm run dogfood:e2e
+```
+
+This submits a synthetic bug and text attachment through the actual Web
+Component in Chromium. It then starts the actual stdio MCP server twice: a
+least-privilege implementation agent searches, triages, claims, comments, adds
+evidence, and resolves the report; the verifier credential closes it. The test
+reopens, reclaims, resolves, and independently closes the same report again,
+then verifies its structured audit history and that sensitive demo context was
+redacted.
+
 Run the complete foundation checks with:
 
 ```bash

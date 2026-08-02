@@ -340,21 +340,12 @@ export const buildApiServer = (
 
   server.options("/v1/*", async (request, reply) => {
     const origin = request.headers.origin;
-    const auth = resolveConfiguredAuth(request.headers, options.configuration);
-    const project =
-      auth?.kind === "project_key"
-        ? Object.values(options.configuration.projectKeys).find(
-            (entry) =>
-              entry.workspaceId === auth.workspaceId &&
-              entry.projectId === auth.projectId,
-          )
-        : undefined;
-    if (
-      !auth ||
-      !project ||
-      !origin ||
-      !project.allowedOrigins.includes(origin)
-    ) {
+    const originIsConfigured =
+      origin !== undefined &&
+      Object.values(options.configuration.projectKeys).some((project) =>
+        project.allowedOrigins.includes(origin),
+      );
+    if (!origin || !originIsConfigured) {
       throw new HttpError(
         403,
         "forbidden",
@@ -608,6 +599,22 @@ export const buildApiServer = (
         "feedback:submit",
         "feedback:comment",
       ]);
+      if (auth.kind === "project_key" && request.headers.origin) {
+        const project = Object.values(options.configuration.projectKeys).find(
+          (entry) =>
+            entry.projectId === auth.projectId &&
+            entry.workspaceId === auth.workspaceId,
+        );
+        if (!project?.allowedOrigins.includes(request.headers.origin)) {
+          throw new HttpError(
+            403,
+            "forbidden",
+            "The request origin is not allowed for this project.",
+          );
+        }
+        reply.header("access-control-allow-origin", request.headers.origin);
+        reply.header("access-control-allow-credentials", "true");
+      }
       if (!options.objectStorage) {
         throw new HttpError(
           503,

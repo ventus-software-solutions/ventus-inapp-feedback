@@ -25,6 +25,7 @@
     "format:check": "prettier --check .",
     "demo": "npm run dev --workspace @ventus-software-solutions/feedback-demo",
     "demo:dogfood": "npm run dev --workspace @ventus-software-solutions/feedback-demo -- --port 3100",
+    "dogfood:e2e": "node scripts/dogfood-e2e.mjs",
     "pack:check": "npm pack --dry-run --workspace @ventus-software-solutions/feedback-contracts && npm pack --dry-run --workspace @ventus-software-solutions/feedback-api-client && npm pack --dry-run --workspace @ventus-software-solutions/feedback-browser && npm pack --dry-run --workspace @ventus-software-solutions/feedback-widget && npm pack --dry-run --workspace @ventus-software-solutions/feedback-react && npm pack --dry-run --workspace @ventus-software-solutions/feedback-mcp",
     "audit": "npm audit --audit-level=high",
     "release:check": "node scripts/check-release-readiness.mjs",
@@ -35,6 +36,7 @@
   },
   "devDependencies": {
     "@eslint/js": "9.39.4",
+    "@playwright/test": "1.62.1",
     "eslint": "9.39.4",
     "eslint-plugin-react-hooks": "7.1.1",
     "globals": "16.4.0",

@@ -15,6 +15,11 @@ authentication, Docker Compose, and a stdio MCP adapter. The real Compose smoke
 flow passes create, attachment upload and signed download, claim, resolve,
 independent close, and audit-event verification.
 
+The real Web Component-to-stdio-MCP acceptance flow also runs in CI with
+separate implementation and verifier credentials. It covers browser submission,
+attachment upload, structured search and triage, claim, comment, evidence,
+resolve, close, reopen, and final independent closure.
+
 The repository and six integration packages are publicly available as a beta.
 The local Docker stack and browser-to-agent smoke flow are operational, and the
 public showcase uses a backend-free simulation. Stable production readiness
@@ -447,7 +452,7 @@ The demo application is the first real consumer. It must exercise packages throu
 - [x] Never display or persist unredacted values in the inspector.
 - [ ] Add a reset action that clears feedback, captures, object URLs, and mock state.
 - [ ] Add automated browser tests for the primary demo scenarios.
-- [ ] Include the demo build and browser smoke tests in CI.
+- [x] Include the demo build and real Chromium browser-to-MCP smoke test in CI.
 - [ ] Deploy a public demo only after abuse controls and privacy behavior are reviewed.
 
 ## 3.8 Demo-to-real-backend progression
@@ -457,8 +462,8 @@ The demo application is the first real consumer. It must exercise packages throu
 - [x] Keep mock submissions in memory or disposable browser storage only.
 - [x] Switch the local dogfooding demo to the real backend once Phase 5 is usable, with an explicit mock fallback.
 - [ ] Run the same transport contract suite against mock and real implementations.
-- [ ] Connect the demo to the MCP server once Phase 7 is usable.
-- [ ] Demonstrate submit, search, claim, comment, resolve, verify, and close end to end.
+- [x] Connect the real local demo submission to the stdio MCP server in an automated acceptance flow.
+- [x] Demonstrate submit, attachment upload, search, triage, claim, comment, evidence, resolve, independent close, reopen, and final close end to end.
 - [ ] Retain failure-scenario routes as permanent regression fixtures.
 
 ## 3.9 Public showcase and hosting

@@ -165,6 +165,40 @@ test("enforces origin, project, validation, and idempotency at ingestion", async
   assert.equal(deniedOrigin.statusCode, 403);
 });
 
+test("accepts browser preflight for configured origins without requiring the project key", async (t) => {
+  const server = createServer();
+  t.after(() => server.close());
+  const preflight = await server.inject({
+    method: "OPTIONS",
+    url: "/v1/feedback",
+    headers: {
+      origin: "https://app.example",
+      "access-control-request-method": "POST",
+      "access-control-request-headers":
+        "content-type,idempotency-key,x-feedback-project-key",
+    },
+  });
+  assert.equal(preflight.statusCode, 204);
+  assert.equal(
+    preflight.headers["access-control-allow-origin"],
+    "https://app.example",
+  );
+  assert.match(
+    preflight.headers["access-control-allow-headers"],
+    /x-feedback-project-key/,
+  );
+
+  const denied = await server.inject({
+    method: "OPTIONS",
+    url: "/v1/feedback",
+    headers: {
+      origin: "https://evil.example",
+      "access-control-request-method": "POST",
+    },
+  });
+  assert.equal(denied.statusCode, 403);
+});
+
 test("scopes reporter follow-up tokens to the feedback that issued them", async (t) => {
   const server = createServer();
   t.after(() => server.close());
@@ -499,6 +533,7 @@ test("validates, stores, and authorizes attachment downloads", async (t) => {
       "if-match": '"1"',
       "idempotency-key": "idem-upload-1",
       "content-type": `multipart/form-data; boundary=${boundary}`,
+      origin: "https://app.example",
     },
     payload: multipartBody({
       boundary,
@@ -509,6 +544,10 @@ test("validates, stores, and authorizes attachment downloads", async (t) => {
     }),
   });
   assert.equal(uploaded.statusCode, 201);
+  assert.equal(
+    uploaded.headers["access-control-allow-origin"],
+    "https://app.example",
+  );
   assert.equal(uploaded.json().attachment.fileName, "notes.txt");
   assert.equal(uploaded.json().attachment.mediaType, "text/plain");
   assert.equal(storage.objects.size, 1);

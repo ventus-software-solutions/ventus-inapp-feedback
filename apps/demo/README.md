@@ -26,6 +26,19 @@ Open `http://localhost:3100`, submit through either form, and copy the stable
 feedback ID from the receipt. The API is at `http://localhost:8180`; an MCP agent
 using `demo-service-token` can search for and claim the new record immediately.
 
+For the repeatable browser-to-agent acceptance flow, install Chromium once and
+run the test while the stack is healthy:
+
+```bash
+npx playwright install chromium
+npm run dogfood:e2e
+```
+
+The script submits through the real Web Component, uploads a synthetic text
+attachment, and drives the report through search, triage, claim, comment,
+evidence, resolve, independent close, reopen, and final close using two real
+stdio MCP processes. CI runs the same workflow against PostgreSQL and MinIO.
+
 The single command starts the demo, API, PostgreSQL, and MinIO. Stop the stack
 with `docker compose down`; add `-v` only when you intentionally want to remove
 the local feedback and attachment data as well.

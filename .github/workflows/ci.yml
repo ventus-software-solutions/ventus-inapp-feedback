@@ -35,7 +35,17 @@ jobs:
       - run: npm run build --workspace @ventus-software-solutions/feedback-contracts
       - run: npm run build --workspace @ventus-software-solutions/feedback-api-client
       - run: npm run build --workspace @ventus-software-solutions/feedback-api
+      - run: npm run build --workspace @ventus-software-solutions/feedback-mcp
+      - name: Install the dogfooding browser
+        run: npx playwright install --with-deps chromium
       - run: docker compose up --build --wait
+      - name: Dogfood the real widget-to-MCP workflow
+        env:
+          VENTUS_DOGFOOD_DEMO_URL: http://localhost:3100
+          VENTUS_DOGFOOD_API_URL: http://127.0.0.1:8180/v1
+          VENTUS_DOGFOOD_AGENT_TOKEN: demo-agent-two-token
+          VENTUS_DOGFOOD_VERIFIER_TOKEN: demo-service-token
+        run: npm run dogfood:e2e
       - name: Smoke API
         env:
           VENTUS_SMOKE_API_URL: http://127.0.0.1:8180/v1
