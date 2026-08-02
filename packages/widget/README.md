@@ -35,6 +35,12 @@ automatic screenshot. Temporary form data, captures, object URLs, and attachment
 references are cleared after success or cancellation. Recoverable submission
 errors retain the current form.
 
+Image attachments include a built-in editor for freehand marks, lines,
+rectangles, ellipses, arrows, and text. Reporters can undo or clear marks, move
+text callouts, and zoom the image. Applying the edit flattens the annotations
+into the PNG that is previewed and uploaded. Set `annotation-mode="none"` when a
+host application needs to disable the editor.
+
 The form footer includes the two-line "Made by Ventus" badge from the Ventus
 branding system, with the subtitle `a software company from Cologne`,
 self-contained canonical logo artwork, and UTM source attribution. It links to

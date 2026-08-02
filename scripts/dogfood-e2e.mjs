@@ -92,6 +92,38 @@ try {
     .fill(
       "A synthetic end-to-end report submitted through the real Web Component and completed through the real MCP stdio server.",
     );
+
+  // Exercise the real screenshot editor before the text fixture replaces the
+  // screenshot. This keeps capture, drawing, compositing, and attachment
+  // replacement in the same browser-to-MCP acceptance path.
+  await widget.locator("button[data-action='capture']").click();
+  const editAttachment = widget.locator(
+    "button[data-action='edit-attachment']",
+  );
+  await editAttachment.waitFor({ state: "visible" });
+  await editAttachment.click();
+  const annotationEditor = widget.locator("dialog.annotation-editor");
+  await annotationEditor.waitFor({ state: "visible" });
+  await widget
+    .locator("button[data-action='annotation-tool'][data-tool='rectangle']")
+    .click();
+  const annotationCanvas = widget.locator("canvas.annotation-canvas");
+  const canvasBounds = await annotationCanvas.boundingBox();
+  assert.ok(canvasBounds, "Annotation canvas has no visible bounds.");
+  await page.mouse.move(canvasBounds.x + 80, canvasBounds.y + 80);
+  await page.mouse.down();
+  await page.mouse.move(canvasBounds.x + 240, canvasBounds.y + 180, {
+    steps: 4,
+  });
+  await page.mouse.up();
+  assert.equal(
+    await widget.locator("button[data-action='annotation-undo']").isEnabled(),
+    true,
+    "Drawing did not create an undoable annotation.",
+  );
+  await widget.locator("button[data-action='annotation-apply']").click();
+  await annotationEditor.waitFor({ state: "hidden" });
+
   await widget.locator("input[name='attachment']").setInputFiles({
     name: "dogfood-evidence.txt",
     mimeType: "text/plain",

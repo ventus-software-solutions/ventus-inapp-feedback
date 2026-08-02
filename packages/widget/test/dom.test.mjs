@@ -136,3 +136,31 @@ test("updates the trigger label when locale and override attributes change", () 
   assert.equal(widget.shadowRoot.querySelector("dialog").lang, "de");
   assert.equal(description.value, "Keep this draft while translating");
 });
+
+test("ships the screenshot drawing editor with all annotation tools", () => {
+  const widget = document.createElement(defineTestWidget());
+  widget.setAttribute("locale", "de-DE");
+  document.body.append(widget);
+
+  const editor = widget.shadowRoot.querySelector("dialog.annotation-editor");
+  assert.equal(
+    editor.getAttribute("aria-labelledby"),
+    "ventus-annotation-title",
+  );
+  assert.deepEqual(
+    [...editor.querySelectorAll("[data-action='annotation-tool']")].map(
+      (button) => button.dataset.tool,
+    ),
+    ["freehand", "line", "rectangle", "ellipse", "arrow", "text"],
+  );
+  assert.equal(
+    editor.querySelector("[data-label='editorTitle']").textContent,
+    "Screenshot markieren",
+  );
+  assert.equal(
+    editor.querySelector("[data-action='annotation-undo']").textContent,
+    "Rückgängig",
+  );
+  assert.ok(editor.querySelector(".annotation-canvas"));
+  assert.ok(editor.querySelector(".annotation-text-input"));
+});

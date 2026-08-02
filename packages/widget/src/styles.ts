@@ -99,6 +99,42 @@ button, .file-label {
 .preview { display: none; gap: 8px; }
 .preview[data-visible="true"] { display: grid; }
 .preview img { max-width: 100%; max-height: 180px; border: 1px solid var(--ventus-border); border-radius: 9px; object-fit: contain; }
+.preview-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+:host([annotation-mode="none"]) [data-action="edit-attachment"] { display: none; }
+.annotation-editor {
+  width: calc(100vw - 24px);
+  height: calc(100vh - 24px);
+  max-width: 1200px;
+  max-height: calc(100vh - 24px);
+  overflow: hidden;
+}
+.annotation-editor::backdrop { background: rgb(8 18 14 / .68); backdrop-filter: blur(3px); }
+.annotation-panel { display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto; gap: 12px; height: 100%; padding: 18px; }
+.annotation-heading { display: flex; align-items: start; justify-content: space-between; gap: 18px; }
+.annotation-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; border-bottom: 1px solid var(--ventus-border); padding-bottom: 10px; }
+.annotation-tools { display: flex; flex-wrap: wrap; gap: 5px; }
+.annotation-toolbar button { padding: 7px 9px; }
+.annotation-tools button { display: inline-flex; align-items: center; justify-content: center; gap: 5px; min-width: 38px; }
+.annotation-tools button[data-active="true"] { border-color: var(--ventus-accent); background: color-mix(in srgb, var(--ventus-accent) 12%, var(--ventus-bg)); color: var(--ventus-accent); }
+.annotation-toolbar button:disabled { cursor: not-allowed; }
+.annotation-separator { width: 1px; height: 26px; margin: 0 2px; background: var(--ventus-border); }
+.annotation-scroll { min-height: 220px; overflow: auto; border: 1px solid var(--ventus-border); border-radius: 10px; background: var(--ventus-surface); }
+.annotation-stage { position: relative; min-width: 1px; min-height: 1px; }
+.annotation-image, .annotation-canvas { position: absolute; inset: 0 auto auto 0; display: block; max-width: none; max-height: none; }
+.annotation-canvas { cursor: crosshair; touch-action: none; }
+.annotation-text-input {
+  position: absolute;
+  z-index: 2;
+  width: min(320px, calc(100vw - 70px));
+  min-height: 64px;
+  border: 2px solid var(--ventus-danger);
+  background: rgb(255 255 255 / .97);
+  color: #b91c1c;
+  box-shadow: 0 5px 18px rgb(0 0 0 / .28);
+  resize: both;
+}
+.annotation-text-input[hidden] { display: none; }
+.annotation-actions { display: flex; justify-content: flex-end; gap: 9px; }
 .form-footer { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
 .actions { display: flex; justify-content: flex-end; gap: 9px; }
 a.ventus-badge[href] {
@@ -187,6 +223,8 @@ button:disabled { cursor: wait; opacity: .62; }
   .actions { flex-direction: column-reverse; }
   .actions button { width: 100%; }
   .ventus-badge { align-self: center; }
+  .annotation-panel { padding: 12px; }
+  .annotation-tools button span:last-child { display: none; }
 }
 @media (max-width: 640px) {
   a.ventus-badge[href] .ventus-badge-text,

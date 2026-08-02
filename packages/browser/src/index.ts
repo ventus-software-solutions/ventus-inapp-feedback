@@ -3,6 +3,11 @@ export {
   createFeedbackCaptureApi,
 } from "./core/createFeedbackCaptureCore.js";
 export {
+  compositeFeedbackAnnotations,
+  drawFeedbackAnnotationShape,
+  measureFeedbackAnnotationText,
+} from "./annotation.js";
+export {
   parseFeedbackCapturePayload,
   validateFeedbackCapturePayload,
 } from "./schema.js";
@@ -42,3 +47,8 @@ export type {
   RedactionContext,
   ScreenshotCaptureOptions,
 } from "./types.js";
+export type {
+  FeedbackAnnotationPoint,
+  FeedbackAnnotationShape,
+  FeedbackAnnotationTool,
+} from "./annotation.js";

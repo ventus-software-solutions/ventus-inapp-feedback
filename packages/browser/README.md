@@ -90,6 +90,35 @@ payment-autocomplete, and `[data-feedback-mask]` fields are masked by default wh
 the selector list is not overridden. Display-media capture must be called directly
 from a user gesture and remains an explicit browser permission flow.
 
+### Custom annotation interfaces
+
+The package also exports framework-neutral annotation primitives. Use them to
+build a custom editor or flatten shapes into a captured image before submission:
+
+```ts
+import {
+  compositeFeedbackAnnotations,
+  type FeedbackAnnotationShape,
+} from "@ventus-software-solutions/feedback-browser";
+
+const shapes: FeedbackAnnotationShape[] = [
+  {
+    tool: "arrow",
+    color: "#dc2626",
+    points: [
+      { x: 120, y: 80 },
+      { x: 260, y: 160 },
+    ],
+  },
+];
+
+const annotatedPng = await compositeFeedbackAnnotations(screenshot, shapes);
+```
+
+Coordinates are image pixels. `drawFeedbackAnnotationShape()` renders a single
+shape into an existing canvas context, while `compositeFeedbackAnnotations()`
+returns a flattened PNG. The ready-made widget provides the complete editor UI.
+
 ## Validate and submit
 
 The package validates captured payloads at the transport boundary. The default

@@ -1,10 +1,12 @@
 import {
   createFeedbackCaptureCore,
+  drawFeedbackAnnotationShape,
   createFeedbackSubmission,
   createHttpFeedbackTransport,
   type FeedbackCaptureCore,
   type FeedbackCaptureCoreOptions,
   type FeedbackCapturePayloadInput,
+  type FeedbackAnnotationShape,
   type FeedbackTransport,
 } from "../dist/index.js";
 
@@ -44,6 +46,16 @@ capture.destroy();
 
 void capture.captureViewportScreenshotBlob();
 void capture.captureDisplayMediaScreenshotBlob();
+
+const annotation: FeedbackAnnotationShape = {
+  tool: "arrow",
+  points: [
+    { x: 0, y: 0 },
+    { x: 10, y: 10 },
+  ],
+  color: "#dc2626",
+};
+void drawFeedbackAnnotationShape({} as CanvasRenderingContext2D, annotation);
 
 const submission = createFeedbackSubmission({
   payload,

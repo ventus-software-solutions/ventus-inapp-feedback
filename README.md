@@ -58,7 +58,9 @@ and deployment access.
    without leaving the application.
 2. They describe what happened and optionally include a screenshot. With their
    consent, the report also contains the current release, page URL, recent
-   actions, JavaScript errors, and failed network requests.
+   actions, JavaScript errors, and failed network requests. Screenshots and
+   uploaded images can be marked up with freehand strokes, lines, rectangles,
+   ellipses, arrows, and text before submission.
 3. A developer asks a coding agent to find new checkout bugs. The agent calls
    `search_feedback`, retrieves the structured record with `get_feedback`, and
    downloads any authorized attachments.

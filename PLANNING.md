@@ -375,19 +375,19 @@ Screenshot annotation is useful feedback functionality and should be implemented
 as framework-neutral widget code.
 
 - [ ] Define a versioned annotation shape schema using normalized image coordinates.
-- [ ] Support at least freehand/line, arrow, rectangle, ellipse, and text annotations.
-- [ ] Render annotations consistently in preview and the final uploaded image.
+- [x] Support at least freehand/line, arrow, rectangle, ellipse, and text annotations.
+- [x] Render annotations consistently in preview and the final uploaded image.
 - [ ] Scale stroke widths and text so annotations remain readable at different image sizes.
-- [ ] Support selecting, moving, editing, and removing annotations.
+- [ ] Support selecting, moving, editing, and removing all annotation types. Text callouts can already be moved.
 - [ ] Add undo/redo history.
-- [ ] Add zoom, pan, fit-to-image, and reset controls.
+- [ ] Add pan and fit-to-image controls. Zoom and reset are implemented.
 - [ ] Replace browser prompts/confirms with accessible inline or modal interactions.
-- [ ] Preserve feedback form state while the annotation editor is open.
-- [ ] Avoid nested-dialog and z-index conflicts.
+- [x] Preserve feedback form state while the annotation editor is open.
+- [ ] Verify nested-dialog, focus, and z-index behavior across supported browsers.
 - [ ] Add defensive delete/clear-all confirmation behavior.
 - [ ] Test annotations against large, portrait, landscape, and high-DPI screenshots.
 - [ ] Test pointer, mouse, keyboard, and touch interaction.
-- [ ] Decide whether annotations are flattened into the image, retained as structured metadata, or both.
+- [x] Flatten annotations into the submitted PNG for the first release; structured annotation metadata can be added later if needed.
 
 ## 3.4 Accessibility and localization
 
@@ -838,7 +838,7 @@ The MCP server is an adapter over the HTTP API. It must not bypass API authoriza
 - [ ] Document CSP requirements.
 - [ ] Document browser support and known screenshot limitations.
 - [ ] Document breadcrumbs, failed-request capture, build metadata, and host-provided context.
-- [ ] Document screenshot annotation and attachment behavior.
+- [x] Document screenshot annotation and attachment behavior.
 
 ## 8.2 Server documentation
 
