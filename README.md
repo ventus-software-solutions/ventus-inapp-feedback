@@ -119,6 +119,54 @@ The browser SDK uses bounded diagnostic buffers, default redaction, and
 screenshot masking. Most diagnostic collection is opt-in. Applications can
 also provide custom redaction and masking rules before data leaves the browser.
 
+## Let your coding agent install it
+
+Give an agent with access to your application repository the following prompt:
+
+> Install Ventus In-App Feedback in this application using
+> https://github.com/ventus-software-solutions/ventus-inapp-feedback.
+>
+> First inspect the frontend framework, package manager, existing environment
+> configuration, test setup, and any repository instructions. Use
+> `@ventus/feedback-react` for React, the framework-neutral
+> `@ventus/feedback-widget` Web Component for other UI frameworks, or
+> `@ventus/feedback-browser` only when this application needs a custom feedback
+> interface.
+>
+> Add an accessible feedback trigger that lets users submit a bug, general
+> feedback, or a feature idea. Configure source application, release, and
+> environment context. Add appropriate screenshot-mask selectors and preserve
+> the SDK's redaction and opt-in diagnostic controls.
+>
+> Read the feedback API endpoint and public submit-only project key from the
+> application's environment configuration. Add documented placeholder variables
+> to its example environment file, but never commit real credentials and never
+> expose an agent or service token in browser code. Do not invent or assume a
+> hosted Ventus endpoint.
+>
+> Add or update tests for rendering, configuration, submission success, and
+> submission failure. Run the repository's normal formatting, type, lint, test,
+> and build checks. Then summarize the files changed, privacy choices, checks
+> run, and any operator steps still required. Do not deploy without explicit
+> authorization.
+>
+> This project is currently pre-release. If the required package is not yet
+> available from the configured package registry, do not copy its internal
+> source into the application. Instead, report the missing package/version and
+> use the repository's one-command Docker stack for evaluation.
+
+To let an agent start and verify that complete evaluation stack, use:
+
+> Clone or open the Ventus In-App Feedback repository. Run
+> `docker compose up --build`, wait for every service to become healthy, and
+> verify the demo at `http://localhost:3100`. Submit one synthetic bug report,
+> confirm that the agent credential can find and claim its stable feedback ID,
+> release the claim, and report the result. Do not use real customer data, and do
+> not remove Docker volumes when stopping the stack.
+
+Ventus coordinates reports and their lifecycle; the coding agent still needs
+its normal permission to read and modify the consuming application's repository.
+
 ## Add feedback to an application
 
 The framework-neutral Web Component is the quickest integration:
