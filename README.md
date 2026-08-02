@@ -16,6 +16,8 @@ pre-release.
 
 **[Try the live, browser-only workflow showcase](https://ventus-software-solutions.github.io/ventus-inapp-feedback/)** — it simulates submission, backend storage, and the complete MCP agent lifecycle without uploading or saving any data.
 
+[![Ventus In-App Feedback — from user report to verified fix](apps/demo/public/og.png)](https://ventus-software-solutions.github.io/ventus-inapp-feedback/)
+
 ## How it works
 
 ```mermaid
